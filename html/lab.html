@@ -14,6 +14,9 @@
     <body>
         <main>
             <section>
+                <header>
+                    <h3>Datalist</h2>
+                </header>
                 <p>this part is to use a datalist tag that I didn't contain in my homepage</p>                
                 <label for="pokemon">Choose your browser from the list:</label>
                 <input list="pokemons" name="pokemon" id="pokemon">
@@ -24,6 +27,31 @@
                     <option value="Pikachu">
                 </datalist>
             </section>
+            <section>
+                <header>
+                    <h3>Canvas</h2>
+                </header>
+                <p>this part is to use a canvas tag that I didn't contain in my homepage</p>
+                <canvas id="myCanvas" width="200" height="100">
+                    Your browser does not support the canvas tag.
+                </canvas>
+                <script>
+                    var canvas = document.getElementById("myCanvas");
+                    var ctx = canvas.getContext("2d");
+                    ctx.moveTo(50, 25);
+                    ctx.lineTo(100, 50);
+                    ctx.stroke();
+                    ctx.moveTo(100, 50);
+                    ctx.lineTo(150, 25);
+                    ctx.stroke();
+                    ctx.moveTo(100, 50);
+                    ctx.lineTo(100, 100);
+                    ctx.stroke();
+                </script>
+            </section>
+
+
+
         </main>
     </body>
 </html>
