@@ -32,26 +32,17 @@
                     <h3>Canvas</h2>
                 </header>
                 <p>this part is to use a canvas tag that I didn't contain in my homepage</p>
-                <canvas id="myCanvas" width="200" height="100">
+                <canvas id="myCanvas" width="300" height="200">
                     Your browser does not support the canvas tag.
                 </canvas>
                 <script>
-                    var canvas = document.getElementById("myCanvas");
-                    var ctx = canvas.getContext("2d");
-                    ctx.moveTo(50, 25);
-                    ctx.lineTo(100, 50);
-                    ctx.stroke();
-                    ctx.moveTo(100, 50);
-                    ctx.lineTo(150, 25);
-                    ctx.stroke();
-                    ctx.moveTo(100, 50);
-                    ctx.lineTo(100, 100);
+                    var c = document.getElementById("myCanvas");
+                    var ctx = c.getContext("2d");
+                    ctx.moveTo(0, 0);
+                    ctx.lineTo(200, 100);
                     ctx.stroke();
                 </script>
             </section>
-
-
-
         </main>
     </body>
 </html>
