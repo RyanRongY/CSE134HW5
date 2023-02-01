@@ -23,7 +23,7 @@
                     <h2>About Yan</h2>
                     <figure>
                         <img src="images/cat.jpg" alt="Mycat" width="380" height="250">
-                        <figcaption>This is my cat Grace</figcaption>
+                        <figcaption>This is my cat Grace. Sorry I can't find a good picture of myself</figcaption>
                     </figure>
                     
                 </header>
@@ -37,7 +37,7 @@
                 </p>
                 <hr>
                 <!--a hidden image of my favorite animal-->
-                <template id="productTemplate">
+                <template id="Template">
                     <div id="myFavAnimal">
                       <img src="images/rattlesnake.jfif" alt="Product Image">
                       <h2>Diamondback rattlesnake</h2>
@@ -45,7 +45,8 @@
                         , cuddling up with their relatives, a finding that suggests serpents 
                         may have more complex social lives than currently appreciated, researchers say.</p>
                     </div>
-                </template>   
+                </template>
+
             </section>
             <section id="related_links">
                 <header>
@@ -72,7 +73,77 @@
                 <header>
                     <h2>My Hobbies</h2>
                 </header>
-                
+                <p>
+                    
+                </p>
+                <hr>
+            </section>
+
+            <section id="Skills">
+                <header>
+                    <h2>My Skills</h2>
+                </header>
+                <p>
+                    <ol>
+                        <li>Java</li>
+                        <li>C++</li>
+                        <li>Python</li>
+                        <li>PSpice/LTSpice</li>
+                        <li>FPGA</li>
+                        <li>Matlab</li>
+                        <li>Microsoft Office </li>
+                      </ol>
+                </p>
+                <hr>
+            </section>
+
+            <section id="Education">
+                <header>
+                    <h2>Education</h2>
+                </header>
+                <p>
+                    <table>
+                        <caption>My Education Background</caption>
+                        <tr>
+                          <th>Institution</th>
+                          <th>Field of Study</th>
+                          <th>Dgree</th>
+                          <th>Graduation Date</th>
+                        </tr>
+                        <tr>
+                          <td>University of California San Diego</td>
+                          <td>Computer Science</td>
+                          <td>Bachelor of Science</td>
+                          <td>June 2024</td>
+                        </tr>
+                        <tr>
+                          <td>Lexington High School</td>
+                          <td>N/A</td>
+                          <td>High School Diploma</td>
+                          <td>June 2020</td>
+                        </tr>
+                      </table>  
+                      <br>
+
+                      <details>
+                        <summary> Other Education Background</summary>
+                        <table>
+                          <tr>
+                            <th>School</th>
+                            <th>Graduation Date</th>
+                          </tr>
+                          <tr>
+                            <td>William Diamond Middle School</td>
+                            <td>June 2016</td>
+                          </tr>
+                          <tr>
+                            <td>Maria Hastings Elementary School</td>
+                            <td>June 2013</td>
+                          </tr>
+                        </table>
+                      </details>
+                </p>
+                <hr>
             </section>
         </main>
 
@@ -89,11 +160,16 @@
                 <input type="text" id="company" name="company" ><br><br>
                 <label for="purpose_of_contact">Purpose of Contact:</label>
                 <select id="purpose_of_contact">
+                    <optgroup>
+                        <optgroup label="Relationship"></optgroup>
                     <option id="work">Employment Opportunity</option>
                     <option id="makefriends">Make Friends</option>
-                    <option id="question">Ask a Question</option>
+                </optgroup>
+                <optgroup>
+                    <optgroup label="Advice"></optgroup>
                     <option id="Sadvice">Advice to the Site</option>
                     <option id="Cadvice">Advice to my Career</option>
+                </optgroup>
                 </select><br><br>
                 <label for="message">Message:</label>
                 <textarea id="message" name="message"></textarea><br><br>
