@@ -36,7 +36,8 @@
     font-family: 'Allura';
     font-weight: bold;
     font-style: italic;
-    background-color: #aaa;
+    background-image: url(images/feather-filler-poetry-poetic.jpg);
+    background-size: auto;
   }
 
   body {
