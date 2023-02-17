@@ -16,6 +16,11 @@
     --secondary-color: #4CAF50;
   }
   
+  @keyframes move {
+    0% { transform: translateX(0); }
+    50% { transform: translateX(100px); }
+    100% { transform: translateX(0); }
+  }
 
 * {
     margin: 0;
@@ -63,6 +68,9 @@
     font-style: italic;
     font-size: 14px;
     margin-top: 20px;
+    animation-name: move;
+    animation-duration: 2s;
+    animation-iteration-count: 5;
   }
   
   /* Main styles */
@@ -328,4 +336,30 @@
   #Skills li:hover {
     background-color: #e0e0e0;
     box-shadow: 0 0 5px #aaa;
+    transform: scale(2);
+  }
+
+  #cat:hover{
+    transform: scale(1.5);
+  }
+  
+  .degas {
+    display: inline-block;
+    margin-right: 20px;
+    transition: transform 0.3s;
+  }
+  
+  .degas:hover {
+    transform: scale(1.2);
+  }
+
+  header figure picture img {
+    width: 100%;
+    height: auto;
+  }
+  
+  @media only screen and (min-width: 768px) {
+    header figure picture img {
+      max-width: 380px;
+    }
   }
