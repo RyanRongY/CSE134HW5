@@ -20,8 +20,10 @@
   }
   
   pre {
+    line-height: 1.5;
     font-family: 'Allura';
   }
+  
   body {
     background-color: #f8f8f8;
   }
