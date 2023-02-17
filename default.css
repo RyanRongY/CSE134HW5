@@ -2,12 +2,14 @@
   @font-face {
     font-family: 'Sassy Frass';
     src: url('SassyFrass-Regular.ttf') format('ttf');
+    /*from google font library */
     font-weight: normal;
     font-style: normal;
   }
   @font-face {
     font-family: 'Allura';
     src: url('Allura-Regular.ttf') format('ttf');
+    /*from google font library */
     font-weight: normal;
     font-style: normal;
   }
@@ -40,11 +42,13 @@
     font-weight: bold;
     font-style: italic;
     background-image: url(images/feather-filler-poetry-poetic.jpg);
+    /*Image Source: https://www.wallpaperflare.com/feather-filler-poetry-poetic-write-still-life-note-message-wallpaper-aouxw */
     background-size: auto;
   }
 
   body {
     background-image: url(images/photo-1454117096348-e4abbeba002c.jfif);
+    /*Image Source: https://www.freepik.com/free-vector/yellow-background-with-center-glowing-light-effect_9106133.htm#query=bright%20background&position=0&from_view=keyword&track=ais*/
     background-attachment: fixed;
     background-position: center;
     background-size: cover;
