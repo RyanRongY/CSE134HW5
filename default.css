@@ -28,8 +28,11 @@
     box-sizing: border-box;
     font-family: Arial, sans-serif;
   }
-  
-  pre {
+
+  audio{
+    align-items: center;
+  }
+  #poem {
     max-width: 800px;
     text-align: center;
     line-height: 1.6;
@@ -47,9 +50,7 @@
     background-size: cover;
     background-repeat: no-repeat;
   }
-  #concert{
-    background-color: rgb(77, 107, 153);
-  }
+
   /* Header styles */
   header {
     background-color: #2c3e50;
