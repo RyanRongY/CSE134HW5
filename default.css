@@ -346,7 +346,9 @@
   #cat:hover{
     transform: scale(1.5);
   }
-  
+  #top{
+    border-radius: 20px;
+  }
   .degas {
     display: inline-block;
     margin-right: 20px;
