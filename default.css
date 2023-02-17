@@ -363,3 +363,10 @@
       max-width: 380px;
     }
   }
+  @media only screen and (max-device-width: 390px) {
+    table {
+      font-size: 14px;
+      width: 100%;
+    }
+  }
+  
