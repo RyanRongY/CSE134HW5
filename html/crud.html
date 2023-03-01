@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Blog Posts CRUD</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <header>
+      <h1>Blog Posts CRUD</h1>
+    </header>
+    <main>
+      <section>
+        <h2>Add Post</h2>
+        <form>
+          <label for="title">Title:</label>
+          <input type="text" id="title" required>
+          <br>
+          <label for="date">Date:</label>
+          <input type="date" id="date" required>
+          <br>
+          <label for="summary">Summary:</label>
+          <textarea id="summary" required></textarea>
+          <br>
+          <button type="submit">Add</button>
+        </form>
+      </section>
+
+      <section>
+        <h2>Blog Posts</h2>
+        <ul id="posts"></ul>
+      </section>
+    </main>
+
+    <template id="post-template">
+      <li data-id="${id}">
+        <h3>${title}</h3>
+        <p>${date}</p>
+        <p>${summary}</p>
+        <button class="edit-button">Edit</button>
+        <button class="delete-button">Delete</button>
+      </li>
+    </template>
+
+    <template id="edit-dialog-template">
+      <dialog>
+        <div>
+          <button class="close-button">&times;</button>
+          <form>
+            <label for="title">Title:</label>
+            <input type="text" id="title" required>
+            <br>
+            <label for="date">Date:</label>
+            <input type="date" id="date" required>
+            <br>
+            <label for="summary">Summary:</label>
+            <textarea id="summary" required></textarea>
+            <br>
+            <button type="submit">Save</button>
+          </form>
+        </div>
+      </dialog>
+    </template>
+
+    <script type="module" src="blog.js"></script>
+  </body>
+</html>
