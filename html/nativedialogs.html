@@ -1,62 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
     <title>Native Dialogs</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.1/purify.min.js"></script>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="customdialog.css">
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@2.3.1/dist/purify.min.js"></script>
     <script type="module" src="customdialog.js"></script>
-    <style>
-      dialog {
-        background-color: #fff;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-        font-family: sans-serif;
-        padding: 20px;
-      }
-    </style>
   </head>
   <body>
     <header>
-      <h1>Native Dialogs</h1>
+      <h1>Native Dialogs Example</h1>
     </header>
     <main>
-      <button id="alertBtn">Alert</button>
-      <button id="confirmBtn">Confirm</button>
-      <button id="promptBtn">Prompt</button>
-      <button id="customDialogBtn">Custom Dialog</button>
-      <br><br>
-      <output id="output"></output>
+      <button id="alert-btn">Alert</button>
+      <button id="confirm-btn">Confirm</button>
+      <button id="prompt-btn">Prompt</button>
+      <button id="safer-prompt-btn">Safer Prompt</button>
+      <br>
+      <output></output>
     </main>
+    <template id="alert-dialog-template">
+      <dialog>
+        <div class="dialog-header">
+          <h2>Alert</h2>
+          <button class="close-button">&times;</button>
+        </div>
+        <div class="dialog-body">
+          <p></p>
+        </div>
+      </dialog>
+    </template>
+    <template id="confirm-dialog-template">
+      <dialog>
+        <div class="dialog-header">
+          <h2>Confirm</h2>
+          <button class="close-button">&times;</button>
+        </div>
+        <div class="dialog-body">
+          <p></p>
+          <button class="confirm-button">OK</button>
+          <button class="cancel-button">Cancel</button>
+        </div>
+      </dialog>
+    </template>
+    <template id="prompt-dialog-template">
+      <dialog>
+        <div class="dialog-header">
+          <h2>Prompt</h2>
+          <button class="close-button">&times;</button>
+        </div>
+        <div class="dialog-body">
+          <label for="prompt-input">Please enter your name:</label>
+          <input type="text" id="prompt-input" autocomplete="off">
+          <br>
+          <button class="confirm-button">OK</button>
+          <button class="cancel-button">Cancel</button>
+        </div>
+      </dialog>
+    </template>
+    <template id="safer-prompt-dialog-template">
+      <dialog>
+        <div class="dialog-header">
+          <h2>Safer Prompt</h2>
+          <button class="close-button">&times;</button>
+        </div>
+        <div class="dialog-body">
+          <label for="safer-prompt-input">What's your favorite color?</label>
+          <input type="text" id="safer-prompt-input" autocomplete="off">
+          <br>
+          <button class="confirm-button">OK</button>
+          <button class="cancel-button">Cancel</button>
+        </div>
+      </dialog>
+    </template>
+    
     <script>
-      const alertBtn = document.getElementById("alertBtn");
-      alertBtn.addEventListener("click", () => {
-        window.alert("This is a built-in alert dialog.");
-      });
-
-      const confirmBtn = document.getElementById("confirmBtn");
-      confirmBtn.addEventListener("click", () => {
-        const result = window.confirm("Do you like JavaScript?");
-        document.getElementById("output").textContent = `The value returned by the confirm method is: ${result}`;
-      });
-
-      const promptBtn = document.getElementById("promptBtn");
-      promptBtn.addEventListener("click", () => {
-        const input = window.prompt("Please enter your name:");
-        if (input === null) {
-          document.getElementById("output").textContent = "User cancelled the prompt dialog.";
-        } else if (input === "") {
-          document.getElementById("output").textContent = "User didn't enter anything.";
-        } else {
-          const sanitizedInput = input.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-          document.getElementById("output").innerHTML = `Hello, ${sanitizedInput}!`;
+      const output = document.querySelector('output');
+      const alertDialogTemplate = document.querySelector('#alert-dialog-template');
+      const confirmDialogTemplate = document.querySelector('#confirm-dialog-template');
+      const promptDialogTemplate = document.querySelector('#prompt-dialog-template');
+      const saferPromptDialogTemplate = document.querySelector('#safer-prompt-dialog-template');
+      
+      // Attach event listeners to close dialog buttons
+      document.addEventListener('click', (event) => {
+        const closeButton = event.target.closest('.close-button');
+        if (closeButton) {
+          const dialog = closeButton.closest('dialog');
+          dialog.close();
         }
       });
-
-      const customDialogBtn = document.getElementById("customDialogBtn");
-      customDialogBtn.addEventListener("click", () => {
-        showDialog();
+      
+      // Attach event listeners to dialog buttons
+      const alertBtn = document.querySelector('#alert-btn');
+      const confirmBtn = document.querySelector('#confirm-btn');
+      const promptBtn = document.querySelector('#prompt-btn');
+      const saferPromptBtn = document.querySelector('#safer-prompt-btn');
+      
+      alertBtn.addEventListener('click', () => {
+        const message = 'This is a custom alert message.';
+        customAlert(message);
+      });
+      
+      confirmBtn.addEventListener('click', () => {
+        const message = 'Are you sure you want to delete this file?';
+        customConfirm(message, (result) => {
+          output.innerHTML = `The value returned by the confirm method is: ${result}`;
+        });
+      });
+      
+      promptBtn.addEventListener('click', () => {
+        const message = 'Please enter your name:';
+        customPrompt(message, (value) => {
+          if (value) {
+            output.innerHTML = `Hello, ${value}!`;
+          } else {
+            output.innerHTML = 'User did not enter anything.';
+          }
+        });
+      });
+      
+      saferPromptBtn.addEventListener('click', () => {
+        const message = 'What is your favorite color?';
+        customSaferPrompt(message, (value) => {
+          if (value) {
+            output.innerHTML = `Your favorite color is ${value}.`;
+          } else {
+            output.innerHTML = 'User did not enter anything.';
+          }
+        });
       });
     </script>
   </body>
 </html>
+
