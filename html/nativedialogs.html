@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="customdialog.css">
     <script src="https://cdn.jsdelivr.net/npm/dompurify@2.3.1/dist/purify.min.js"></script>
-    <script type="module" src="customdialog.js"></script>
+    <script type="module" src="scripts/customdialog.js"></script>
   </head>
   <body>
     <header>
@@ -19,22 +19,24 @@
       <br>
       <output></output>
     </main>
+
     <template id="alert-dialog-template">
       <dialog>
         <div class="dialog-header">
           <h2>Alert</h2>
-          <button class="close-button">&times;</button>
+          <button class="close-button">&#215;</button>
         </div>
         <div class="dialog-body">
           <p></p>
         </div>
       </dialog>
     </template>
+
     <template id="confirm-dialog-template">
       <dialog>
         <div class="dialog-header">
           <h2>Confirm</h2>
-          <button class="close-button">&times;</button>
+          <button class="close-button">&#215;</button>
         </div>
         <div class="dialog-body">
           <p></p>
@@ -43,11 +45,12 @@
         </div>
       </dialog>
     </template>
+
     <template id="prompt-dialog-template">
       <dialog>
         <div class="dialog-header">
           <h2>Prompt</h2>
-          <button class="close-button">&times;</button>
+          <button class="close-button">&#215;</button>
         </div>
         <div class="dialog-body">
           <label for="prompt-input">Please enter your name:</label>
@@ -62,7 +65,7 @@
       <dialog>
         <div class="dialog-header">
           <h2>Safer Prompt</h2>
-          <button class="close-button">&times;</button>
+          <button class="close-button">&#215;</button>
         </div>
         <div class="dialog-body">
           <label for="safer-prompt-input">What's your favorite color?</label>
@@ -109,7 +112,7 @@
       });
       
       promptBtn.addEventListener('click', () => {
-        const message = 'Please enter your name:';
+        const message = 'Please enter your legal name:';
         customPrompt(message, (value) => {
           if (value) {
             output.innerHTML = `Hello, ${value}!`;
@@ -120,10 +123,10 @@
       });
       
       saferPromptBtn.addEventListener('click', () => {
-        const message = 'What is your favorite color?';
+        const message = 'What is your nickname?';
         customSaferPrompt(message, (value) => {
           if (value) {
-            output.innerHTML = `Your favorite color is ${value}.`;
+            output.innerHTML = `Your nickname is ${value}.`;
           } else {
             output.innerHTML = 'User did not enter anything.';
           }
