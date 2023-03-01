@@ -1,116 +1,101 @@
-import { openModal, closeModal } from './modal.js';
+import DOMPurify from 'https://cdn.skypack.dev/dompurify@2.3.1';
 
-let posts = [
-	{
-		id: 1,
-		title: 'First Post',
-		date: '2023-03-02',
-		summary: 'This is my first blog post!'
-	},
-	{
-		id: 2,
-		title: 'Second Post',
-		date: '2023-03-03',
-		summary: 'This is my second blog post!'
-	},
-	{
-		id: 3,
-		title: 'Third Post',
-		date: '2023-03-04',
-		summary: 'This is my third blog post!'
-	},
-];
+const postTemplate = document.querySelector('#post-template');
+const editDialogTemplate = document.querySelector('#edit-dialog-template');
 
-const postTemplate = document.getElementById('post-template');
-const postsContainer = document.getElementById('posts');
-const addButton = document.getElementById('add-btn');
-const modalTitle = document.getElementById('modal-title');
-const modalForm = document.getElementById('modal-form');
-const titleInput = document.getElementById('title-input');
-const dateInput = document.getElementById('date-input');
-const summaryInput = document.getElementById('summary-input');
-
-let editMode = false;
-let currentPost = null;
+let posts = [];
 
 function renderPosts() {
-	postsContainer.innerHTML = '';
-	for (const post of posts) {
-		const postItem = postTemplate.content.cloneNode(true);
-		postItem.querySelector('.post-title').textContent = post.title;
-		postItem.querySelector('.post-date').textContent = new Date(post.date).toLocaleDateString();
-		postItem.querySelector('.post-summary').textContent = post.summary;
-		postItem.querySelector('.edit-btn').addEventListener('click', () => {
-			editPost(post);
-		});
-		postItem.querySelector('.delete-btn').addEventListener('click', () => {
-			deletePost(post);
-		});
-		postsContainer.appendChild(postItem);
-	}
+  const postsContainer = document.querySelector('#posts');
+  postsContainer.innerHTML = '';
+  posts.forEach((post) => {
+    const postElement = postTemplate.content.cloneNode(true);
+    postElement.querySelector('h3').textContent = post.title;
+    postElement.querySelector('p:nth-of-type(1)').textContent = post.date;
+    postElement.querySelector('p:nth-of-type(2)').textContent = post.summary;
+    postElement.querySelector('.edit-button').addEventListener('click', () => {
+      showEditDialog(post);
+    });
+    postElement.querySelector('.delete-button').addEventListener('click', () => {
+      deletePost(post);
+    });
+    postsContainer.appendChild(postElement);
+  });
 }
 
-function addPost() {
-	editMode = false;
-	currentPost = null;
-	modalTitle.textContent = 'Add Post';
-	titleInput.value = '';
-	dateInput.value = '';
-	summaryInput.value = '';
-	openModal();
-}
-
-function savePost(event) {
-	event.preventDefault();
-	const title = titleInput.value.trim();
-	const date = dateInput.value;
-	const summary = summaryInput.value.trim();
-	if (title === '' || date === '' || summary === '') {
-		window.alert('Please fill in all fields.');
-		return;
-	}
-	const id = currentPost ? currentPost.id : posts.length + 1;
-	const post = { id, title, date, summary };
-	if (currentPost) {
-		const index = posts.findIndex(p => p.id === currentPost.id);
-		posts[index] = post;
-	} else {
-		posts.push(post);
-	}
-	localStorage.setItem('posts', JSON.stringify(posts));
-	renderPosts();
-	closeModal();
-}
-
-function editPost(post) {
-	editMode = true;
-	currentPost = post;
-	modalTitle.textContent = 'Edit Post';
-	titleInput.value = post.title;
-	dateInput.value = post.date;
-	summaryInput.value = post.summary;
-	openModal();
+function addPost(title, date, summary) {
+  const newPost = {
+    id: Date.now().toString(),
+    title,
+    date,
+    summary
+  };
+  posts.push(newPost);
+  renderPosts();
 }
 
 function deletePost(post) {
-	const confirmDelete = window.confirm('Are you sure you want to delete this post?');
-	if (confirmDelete) {
-		const index = posts.findIndex(p => p.id === post.id);
-		posts.splice(index, 1);
-		localStorage.setItem('posts', JSON.stringify(posts));
-		renderPosts();
-	}
+  const index = posts.indexOf(post);
+  if (index >= 0) {
+    posts.splice(index, 1);
+    renderPosts();
+  }
 }
 
-function getPosts() {
-	const storedPosts = localStorage.getItem('posts');
-	if (storedPosts) {
-		posts = JSON.parse(storedPosts);
-	}
+function showEditDialog(post) {
+  const dialog = editDialogTemplate.content.cloneNode(true).querySelector('dialog');
+  const titleInput = dialog.querySelector('#title');
+  const dateInput = dialog.querySelector('#date');
+  const summaryInput = dialog.querySelector('#summary');
+
+  titleInput.value = post.title;
+  dateInput.value = post.date;
+  summaryInput.value = post.summary;
+
+  dialog.showModal();
+
+  dialog.addEventListener('close', () => {
+    const title = titleInput.value.trim();
+    const date = dateInput.value;
+    const summary = DOMPurify.sanitize(summaryInput.value.trim());
+
+    if (dialog.returnValue === 'save' && title && date && summary) {
+      post.title = title;
+      post.date = date;
+      post.summary = summary;
+      renderPosts();
+    }
+  });
+
+  dialog.querySelector('.close-button').addEventListener('click', () => {
+    dialog.returnValue = 'cancel';
+    dialog.close();
+  });
+
+  dialog.querySelector('form').addEventListener('submit', (event) => {
+    event.preventDefault();
+    dialog.returnValue = 'save';
+    dialog.close();
+  });
 }
 
-getPosts();
-addButton.addEventListener('click', addPost);
-modalForm.addEventListener('submit', savePost);
-document.getElementById('cancel-btn').addEventListener('click', closeModal);
-renderPosts();
+function init() {
+  // Pre-populate the data store with some sample posts
+  addPost('First Post', '2022-01-01', 'This is the first post');
+  addPost('Second Post', '2022-02-01', 'This is the second post');
+
+  // Attach event listener to the Add Post form
+  const addPostForm = document.querySelector('form');
+  addPostForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const title = addPostForm.querySelector('#title').value.trim();
+    const date = addPostForm.querySelector('#date').value;
+    const summary = DOMPurify.sanitize(addPostForm.querySelector('#summary').value.trim());
+    if (title && date && summary) {
+      addPost(title, date, summary);
+      addPostForm.reset();
+    }
+  });
+}
+
+init();
