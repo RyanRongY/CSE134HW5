@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Native Dialogs</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.1/purify.min.js"></script>
+  </head>
+  <body>
+    <header>
+      <h1>Native Dialogs</h1>
+    </header>
+    <main>
+      <button id="alertBtn">Alert</button>
+      <button id="confirmBtn">Confirm</button>
+      <button id="promptBtn">Prompt</button>
+      <button id="saferPromptBtn">Safer Prompt</button>
+      <br><br>
+      <output id="output"></output>
+    </main>
+    <script>
+      const alertBtn = document.getElementById("alertBtn");
+      alertBtn.addEventListener("click", () => {
+        window.alert("This is a built-in alert dialog.");
+      });
+
+      const confirmBtn = document.getElementById("confirmBtn");
+      confirmBtn.addEventListener("click", () => {
+        const result = window.confirm("Do you like JavaScript?");
+        document.getElementById("output").textContent = `The value returned by the confirm method is: ${result}`;
+      });
+
+      const promptBtn = document.getElementById("promptBtn");
+      promptBtn.addEventListener("click", () => {
+        const input = window.prompt("Please enter your name:");
+        if (input === null) {
+          document.getElementById("output").textContent = "User cancelled the prompt dialog.";
+        } else if (input === "") {
+          document.getElementById("output").textContent = "User didn't enter anything.";
+        } else {
+          const sanitizedInput = input.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+          document.getElementById("output").innerHTML = `Hello, ${sanitizedInput}!`;
+        }
+      });
+
+      const saferPromptBtn = document.getElementById("saferPromptBtn");
+      saferPromptBtn.addEventListener("click", () => {
+        const input = window.prompt("Please enter your message:");
+        if (input === null) {
+          document.getElementById("output").textContent = "User cancelled the prompt dialog.";
+        } else if (input === "") {
+          document.getElementById("output").textContent = "User didn't enter anything.";
+        } else {
+          const sanitizedInput = DOMPurify.sanitize(input);
+          document.getElementById("output").innerHTML = `Your message is: ${sanitizedInput}`;
+        }
+      });
+    </script>
+  </body>
+</html>
