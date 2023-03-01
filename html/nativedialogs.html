@@ -1,70 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <title>Native Dialogs with Custom Implementation</title>
-    
-    <script type="module" src="/customdialog.js"></script>
-  </head>
-  <body>
-    <header>
-      <h1>Native Dialogs with Custom Implementation</h1>
-    </header>
-    <main>
-      <section>
-        <h2>Custom Dialogs</h2>
-        <button id="custom-alert-btn">Alert</button>
-        <button id="custom-confirm-btn">Confirm</button>
-        <button id="custom-prompt-btn">Prompt</button>
-        <button id="custom-safer-prompt-btn">Safer Prompt</button>
-        <output></output>
-      </section>
-    </main>
+<head>
+	<meta charset="utf-8">
+	<title>Native Dialogs Example</title>
+	<script src="https://cdn.jsdelivr.net/npm/dompurify@2.3.1/dist/purify.min.js"></script>
+</head>
+<body>
+	<h1>Native Dialogs Example</h1>
+	<button id="alert-btn">Alert</button>
+	<button id="confirm-btn">Confirm</button>
+	<button id="prompt-btn">Prompt</button>
+	<button id="safe-prompt-btn">Safer Prompt</button>
+	<output></output>
+	<script>
+		// Bind click events to the buttons
+		const alertBtn = document.getElementById('alert-btn');
+		const confirmBtn = document.getElementById('confirm-btn');
+		const promptBtn = document.getElementById('prompt-btn');
+		const safePromptBtn = document.getElementById('safe-prompt-btn');
+		const output = document.querySelector('output');
 
-    <template id="alert-dialog-template">
-      <dialog>
-        <div>
-          <button class="close-button">&times;</button>
-          <p>${message}</p>
-          <button autofocus class="close-button">OK</button>
-        </div>
-      </dialog>
-    </template>
+		alertBtn.addEventListener('click', () => {
+			window.alert('This is an alert message.');
+		});
 
-    <template id="confirm-dialog-template">
-      <dialog>
-        <div>
-          <button class="close-button">&times;</button>
-          <p>${message}</p>
-          <button autofocus class="close-button" data-result="true">OK</button>
-          <button class="close-button" data-result="false">Cancel</button>
-        </div>
-      </dialog>
-    </template>
+		confirmBtn.addEventListener('click', () => {
+			const result = window.confirm('Are you sure?');
+			output.textContent = `The value returned by the confirm method is: ${result}`;
+		});
 
-    <template id="prompt-dialog-template">
-      <dialog>
-        <div>
-          <button class="close-button">&times;</button>
-          <p>${message}</p>
-          <input type="text" value="${defaultValue}">
-          <button autofocus class="close-button">OK</button>
-          <button class="close-button" data-result="">Cancel</button>
-        </div>
-      </dialog>
-    </template>
+		promptBtn.addEventListener('click', () => {
+			const result = window.prompt('Please enter your name:');
+			if (result === null) {
+				output.textContent = 'User cancelled the prompt.';
+			} else if (result.trim() === '') {
+				output.textContent = 'User didn\'t enter anything.';
+			} else {
+				output.textContent = `Hello, ${result.trim()}!`;
+			}
+		});
 
-    <template id="safer-prompt-dialog-template">
-      <dialog>
-        <div>
-          <button class="close-button">&times;</button>
-          <p>${message}</p>
-          <input type="text" value="${defaultValue}">
-          <button autofocus class="close-button">OK</button>
-          <button class="close-button" data-result="">Cancel</button>
-        </div>
-      </dialog>
-    </template>
-
-  </body>
+		safePromptBtn.addEventListener('click', () => {
+			const result = window.prompt('Please enter your message:');
+			if (result === null) {
+				output.textContent = 'User cancelled the prompt.';
+			} else if (result.trim() === '') {
+				output.textContent = 'User didn\'t enter anything.';
+			} else {
+				// Sanitize user input to guard against XSS attacks
+				const safeResult = DOMPurify.sanitize(result.trim());
+				// Use tagged template string to render sanitized input
+				output.innerHTML = `You entered: ${safeResult}`;
+			}
+		});
+	</script>
+</body>
 </html>
