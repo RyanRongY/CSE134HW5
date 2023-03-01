@@ -1,94 +1,85 @@
 import DOMPurify from 'https://cdn.jsdelivr.net/npm/dompurify@2.3.1/dist/purify.min.js';
 
-// Get dialog elements
-const alertDialog = document.querySelector('#alert-dialog');
-const confirmDialog = document.querySelector('#confirm-dialog');
-const promptDialog = document.querySelector('#prompt-dialog');
-const saferPromptDialog = document.querySelector('#safer-prompt-dialog');
+const output = document.querySelector('output');
+const alertDialogTemplate = document.querySelector('#alert-dialog-template');
+const confirmDialogTemplate = document.querySelector('#confirm-dialog-template');
+const promptDialogTemplate = document.querySelector('#prompt-dialog-template');
+const saferPromptDialogTemplate = document.querySelector('#safer-prompt-dialog-template');
 
-// Get dialog elements for manipulation
-const alertDialogText = alertDialog.querySelector('p');
-const confirmDialogText = confirmDialog.querySelector('p');
-const promptInput = promptDialog.querySelector('#prompt-input');
-const saferPromptInput = saferPromptDialog.querySelector('#safer-prompt-input');
-const confirmButton = confirmDialog.querySelector('.confirm-button');
-const cancelButton = confirmDialog.querySelector('.cancel-button');
-const dialogCloseButtons = document.querySelectorAll('.close-button');
+function showDialog(dialogTemplate, message, defaultValue, callback) {
+  const dialog = dialogTemplate.content.cloneNode(true).querySelector('dialog');
+  const dialogMessage = dialog.querySelector('p');
+  const dialogInput = dialog.querySelector('input');
 
-// Close all dialogs function
-function closeAllDialogs() {
-  alertDialog.close();
-  confirmDialog.close();
-  promptDialog.close();
-  saferPromptDialog.close();
-}
+  dialogMessage.innerHTML = message;
+  dialogInput.value = defaultValue;
 
-// Alert function
-function customAlert(message) {
-  alertDialogText.innerHTML = DOMPurify.sanitize(message);
-  alertDialog.showModal();
-}
-
-// Confirm function
-function customConfirm(message, callback) {
-  confirmDialogText.innerHTML = DOMPurify.sanitize(message);
-  confirmButton.addEventListener('click', () => {
-    callback(true);
-    closeAllDialogs();
+  const closeButton = dialog.querySelector('.close-button');
+  closeButton.addEventListener('click', () => {
+    const result = closeButton.getAttribute('data-result');
+    if (callback) {
+      callback(result === 'true' ? true : result === 'false' ? false : result);
+    }
+    dialog.close();
   });
-  cancelButton.addEventListener('click', () => {
-    callback(false);
-    closeAllDialogs();
-  });
-  confirmDialog.showModal();
+
+  dialog.showModal();
 }
 
-// Prompt function
-function customPrompt(message, callback) {
-  promptInput.value = '';
-  promptInput.focus();
-  const onSubmit = () => {
-    const value = DOMPurify.sanitize(promptInput.value);
+export function customAlert(message) {
+  showDialog(alertDialogTemplate, message);
+}
+
+export function customConfirm(message, callback) {
+  showDialog(confirmDialogTemplate, message, null, callback);
+}
+
+export function customPrompt(message, callback, defaultValue = '') {
+  showDialog(promptDialogTemplate, message, defaultValue, callback);
+}
+
+export function customSaferPrompt(message, callback, defaultValue = '') {
+  showDialog(saferPromptDialogTemplate, message, defaultValue, (result) => {
+    const sanitizedResult = DOMPurify.sanitize(result);
+    callback(sanitizedResult);
+  });
+}
+
+const customAlertBtn = document.querySelector('#custom-alert-btn');
+const customConfirmBtn = document.querySelector('#custom-confirm-btn');
+const customPromptBtn = document.querySelector('#custom-prompt-btn');
+const customSaferPromptBtn = document.querySelector('#custom-safer-prompt-btn');
+
+customAlertBtn.addEventListener('click', () => {
+  const message = 'This is a custom alert message.';
+  customAlert(message);
+});
+
+customConfirmBtn.addEventListener('click', () => {
+  const message = 'Are you sure you want to delete this file?';
+  customConfirm(message, (result) => {
+    output.innerHTML = `The value returned by the confirm method is: ${result}`;
+  });
+});
+
+customPromptBtn.addEventListener('click', () => {
+  const message = 'Please enter your legal name:';
+  customPrompt(message, (value) => {
     if (value) {
-      callback(value);
-      closeAllDialogs();
-    }
-  };
-  promptInput.addEventListener('keydown', (event) => {
-    if (event.key === 'Enter') {
-      onSubmit();
+      output.innerHTML = `Hello, ${value}!`;
+    } else {
+      output.innerHTML = 'User did not enter anything.';
     }
   });
-  confirmButton.addEventListener('click', onSubmit);
-  cancelButton.addEventListener('click', closeAllDialogs);
-  promptDialog.showModal();
-}
+});
 
-// Safer prompt function
-function customSaferPrompt(message, callback) {
-  saferPromptInput.value = '';
-  saferPromptInput.focus();
-  const onSubmit = () => {
-    const value = DOMPurify.sanitize(saferPromptInput.value);
+customSaferPromptBtn.addEventListener('click', () => {
+  const message = 'What is your nickname?';
+  customSaferPrompt(message, (value) => {
     if (value) {
-      callback(value);
-      closeAllDialogs();
-    }
-  };
-  saferPromptInput.addEventListener('keydown', (event) => {
-    if (event.key === 'Enter') {
-      onSubmit();
+      output.innerHTML = `Your nickname is ${value}.`;
+    } else {
+      output.innerHTML = 'User did not enter anything.';
     }
   });
-  confirmButton.addEventListener('click', onSubmit);
-  cancelButton.addEventListener('click', closeAllDialogs);
-  saferPromptDialog.showModal();
-}
-
-// Attach event listeners to close dialog buttons
-for (const closeButton of dialogCloseButtons) {
-  closeButton.addEventListener('click', closeAllDialogs);
-}
-
-// Export custom dialog functions
-export { customAlert, customConfirm, customPrompt, customSaferPrompt };
+});
