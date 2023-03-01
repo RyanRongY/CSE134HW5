@@ -1,67 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <title>Blog Posts CRUD</title>
-    <script type="module" src="./blog.js"></script>
-  </head>
-  <body>
-    <header>
-      <h1>Blog Posts CRUD</h1>
-    </header>
-    <main>
-      <section>
-        <h2>Add Post</h2>
-        <form>
-          <label for="title">Title:</label>
-          <input type="text" id="title" required>
-          <br>
-          <label for="date">Date:</label>
-          <input type="date" id="date" required>
-          <br>
-          <label for="summary">Summary:</label>
-          <textarea id="summary" required></textarea>
-          <br>
-          <button type="submit">Add</button>
-        </form>
-      </section>
+<head>
+	<meta charset="UTF-8">
+	<title>CRUD App</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<main>
+		<h1>My Blog Posts</h1>
+		<div id="posts">
+			<template id="post-template">
+				<article class="post">
+					<h2 class="post-title"></h2>
+					<p class="post-date"></p>
+					<p class="post-summary"></p>
+					<button class="edit-btn">Edit</button>
+					<button class="delete-btn">Delete</button>
+				</article>
+			</template>
+		</div>
+		<button id="add-btn">Add Post</button>
+	</main>
 
-      <section>
-        <h2>Blog Posts</h2>
-        <ul id="posts"></ul>
-      </section>
-    </main>
+	<div id="modal">
+		<div class="modal-content">
+			<h2 id="modal-title"></h2>
+			<form id="modal-form">
+				<label for="title-input">Title:</label>
+				<input type="text" id="title-input" required>
+				<label for="date-input">Date:</label>
+				<input type="date" id="date-input" required>
+				<label for="summary-input">Summary:</label>
+				<textarea id="summary-input" required></textarea>
+				<button type="submit">Save</button>
+				<button type="button" id="cancel-btn">Cancel</button>
+			</form>
+		</div>
+	</div>
 
-    <template id="post-template">
-      <li data-id="${id}">
-        <h3>${title}</h3>
-        <p>${date}</p>
-        <p>${summary}</p>
-        <button class="edit-button">Edit</button>
-        <button class="delete-button">Delete</button>
-      </li>
-    </template>
-
-    <template id="edit-dialog-template">
-      <dialog>
-        <div>
-          <button class="close-button">&times;</button>
-          <form>
-            <label for="title">Title:</label>
-            <input type="text" id="title" required>
-            <br>
-            <label for="date">Date:</label>
-            <input type="date" id="date" required>
-            <br>
-            <label for="summary">Summary:</label>
-            <textarea id="summary" required></textarea>
-            <br>
-            <button type="submit">Save</button>
-          </form>
-        </div>
-      </dialog>
-    </template>
-
-
-  </body>
+	<script type="module" src="blog.js"></script>
+</body>
 </html>
