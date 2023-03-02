@@ -1,4 +1,4 @@
-import DOMPurify from 'dompurify';
+
 
 const output = document.getElementById('outputField');
 
