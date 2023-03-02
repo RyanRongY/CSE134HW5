@@ -1,10 +1,23 @@
+// Import DOMPurify
 import DOMPurify from 'https://cdn.skypack.dev/dompurify@2.3.1';
 
+// Define the post template
 const postTemplate = document.querySelector('#post-template');
-const editDialogTemplate = document.querySelector('#edit-dialog-template');
 
+// Define the posts array and load from localStorage if available
 let posts = [];
 
+const savedPosts = localStorage.getItem('posts');
+if (savedPosts) {
+  posts = JSON.parse(savedPosts);
+}
+
+// Function to save the posts array to localStorage
+function savePosts() {
+  localStorage.setItem('posts', JSON.stringify(posts));
+}
+
+// Function to render the posts in the UI
 function renderPosts() {
   const postsContainer = document.querySelector('#posts');
   postsContainer.innerHTML = '';
@@ -13,16 +26,11 @@ function renderPosts() {
     postElement.querySelector('h3').textContent = post.title;
     postElement.querySelector('p:nth-of-type(1)').textContent = post.date;
     postElement.querySelector('p:nth-of-type(2)').textContent = post.summary;
-    postElement.querySelector('.edit-button').addEventListener('click', () => {
-      showEditDialog(post);
-    });
-    postElement.querySelector('.delete-button').addEventListener('click', () => {
-      deletePost(post);
-    });
     postsContainer.appendChild(postElement);
   });
 }
 
+// Function to add a new post
 function addPost(title, date, summary) {
   const newPost = {
     id: Date.now().toString(),
@@ -31,58 +39,14 @@ function addPost(title, date, summary) {
     summary
   };
   posts.push(newPost);
+  savePosts();
   renderPosts();
 }
 
-function deletePost(post) {
-  const index = posts.indexOf(post);
-  if (index >= 0) {
-    posts.splice(index, 1);
-    renderPosts();
-  }
-}
-
-function showEditDialog(post) {
-  const dialog = editDialogTemplate.content.cloneNode(true).querySelector('dialog');
-  const titleInput = dialog.querySelector('#title');
-  const dateInput = dialog.querySelector('#date');
-  const summaryInput = dialog.querySelector('#summary');
-
-  titleInput.value = post.title;
-  dateInput.value = post.date;
-  summaryInput.value = post.summary;
-
-  dialog.showModal();
-
-  dialog.addEventListener('close', () => {
-    const title = titleInput.value.trim();
-    const date = dateInput.value;
-    const summary = DOMPurify.sanitize(summaryInput.value.trim());
-
-    if (dialog.returnValue === 'save' && title && date && summary) {
-      post.title = title;
-      post.date = date;
-      post.summary = summary;
-      renderPosts();
-    }
-  });
-
-  dialog.querySelector('.close-button').addEventListener('click', () => {
-    dialog.returnValue = 'cancel';
-    dialog.close();
-  });
-
-  dialog.querySelector('form').addEventListener('submit', (event) => {
-    event.preventDefault();
-    dialog.returnValue = 'save';
-    dialog.close();
-  });
-}
-
+// Function to initialize the app
 function init() {
-  // Pre-populate the data store with some sample posts
-  addPost('First Post', '2022-01-01', 'This is the first post');
-  addPost('Second Post', '2022-02-01', 'This is the second post');
+  // Render the existing posts in the UI
+  renderPosts();
 
   // Attach event listener to the Add Post form
   const addPostForm = document.querySelector('form');
@@ -98,4 +62,5 @@ function init() {
   });
 }
 
+// Call the init function to initialize the app
 init();
