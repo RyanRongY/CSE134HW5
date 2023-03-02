@@ -99,42 +99,38 @@ const Blog = (() => {
         dateLabel.appendChild(dateInput);
         const summaryLabel = document.createElement('label');
         summaryLabel.textContent = 'Summary:';
-        const summaryInput = document.createElement('input');
-        summaryInput.type = 'text';
-        summaryInput.value = post.summary;
-        summaryLabel.appendChild(summaryInput);
-        const cancelButton = document.createElement('button');
-        cancelButton.type = 'button';
-        cancelButton.textContent = 'Cancel';
-        const saveButton = document.createElement('button');
-        saveButton.type = 'button';
-        saveButton.textContent = 'Save';
-        saveButton.addEventListener('click', () => {
-          // Update the post data from the form
-          post.title = titleInput.value;
-          post.date = dateInput.value;
-          post.summary = summaryInput.value;
-          // Re-render the list of posts with the updated post data
-          renderPosts();
-          // Save the updated posts to localStorage
-          savePosts();
-          // Close the dialog
-          dialog.close();
-        });
+        const summaryTextarea = document.createElement('textarea');
+        summaryTextarea.textContent = post.summary;
+        summaryLabel.appendChild(summaryTextarea);
+        const submitButton = document.createElement('button');
+        submitButton.type = 'submit';
+        submitButton.textContent = 'Save';
         editForm.appendChild(titleLabel);
         editForm.appendChild(dateLabel);
         editForm.appendChild(summaryLabel);
-        editForm.appendChild(cancelButton);
-        editForm.appendChild(saveButton);
-        // Open the dialog with the edit form
-        const dialog = new Dialog();
-        dialog.setContent(postMarkup);
-        dialog.setTitle('Edit Post');
-        dialog.setFooter(editForm);
-        dialog.open();
+        editForm.appendChild(submitButton);
+        // Attach event listener to the form submission
+        editForm.addEventListener('submit', (event) => {
+          event.preventDefault();
+          const formData = new FormData(editForm);
+          post.title = formData.get('title');
+          post.date = formData.get('date');
+          post.summary = formData.get('summary');
+          // Render the updated list of posts
+          renderPosts();
+          // Save the posts array to localStorage
+          savePosts();
+          // Close the custom dialog
+          customDialog.close();
+        });
+        // Create a custom dialog to display the edit form
+        const customDialog = document.createElement('dialog');
+        customDialog.appendChild(editForm);
+        customDialog.showModal();
       };
       
-  
+      
+      
     // Public API
     return {
       init() {
