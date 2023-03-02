@@ -1,52 +1,67 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-	<title>Native Dialogs</title>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.1/purify.min.js"></script>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Native Dialogs Example</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.2/purify.min.js"></script>
 	<script type="module" src="./customdialog.js"></script>
-</head>
-<body>
-	<h1>Custom Dialogs</h1>
+  </head>
+  <body>
+    <header>
+      <h1>Native Dialogs Example</h1>
+    </header>
+    <main>
+      <button id="alertBtn">Alert</button>
+      <button id="confirmBtn">Confirm</button>
+      <button id="promptBtn">Prompt</button>
+      <button id="saferPromptBtn">Safer Prompt</button>
+      <br><br>
+      <output id="confirmOutput"></output>
+    </main>
+    <script>
+      const alertBtn = document.getElementById("alertBtn");
+      const confirmBtn = document.getElementById("confirmBtn");
+      const promptBtn = document.getElementById("promptBtn");
+      const saferPromptBtn = document.getElementById("saferPromptBtn");
+      const confirmOutput = document.getElementById("confirmOutput");
 
-	<template id="alertTemplate">
-		<dialog>
-			<p id="alertMessage"></p>
-			<button id="alertYesButton">OK</button>
-		</dialog>
-	</template>
+      alertBtn.addEventListener("click", () => {
+        window.alert("This is an alert message");
+      });
 
-	<template id="confirmTemplate">
-		<dialog>
-			<p id="confirmMessage"></p>
-			<button id="confirmYesButton">Yes</button>
-			<button id="confirmNoButton">No</button>
-		</dialog>
-	</template>
+      confirmBtn.addEventListener("click", () => {
+        const result = window.confirm("Do you want to proceed?");
+        confirmOutput.textContent = `The value returned by the confirm method is: ${result}`;
+      });
 
-	<template id="promptTemplate">
-		<dialog>
-			<p id="promptMessage"></p>
-			<input type="text" id="promptInput">
-			<button id="promptCancelButton">Cancel</button>
-			<button id="promptYesButton">OK</button>
-		</dialog>
-	</template>
+      promptBtn.addEventListener("click", () => {
+        const result = window.prompt("What's your name?");
+        if (result === null) {
+          console.log("User cancelled the prompt");
+        } else if (result === "") {
+          console.log("User didn't enter anything");
+        } else {
+          console.log(`Hello, ${result}!`);
+        }
+      });
 
-	<template id="customTemplate">
-		<dialog>
-			<h2 id="customTitle"></h2>
-			<p id="customMessage"></p>
-			<button id="customYesButton">Yes</button>
-			<button id="customNoButton">No</button>
-		</dialog>
-	</template>
-
-	<p id="outputField"></p>
-
-	<button id="alertBtn">Alert</button>
-	<button id="confirmBtn">Confirm</button>
-	<button id="promptBtn">Prompt</button>
-	<button id="customBtn">Custom</button>
-
-</body>
+      saferPromptBtn.addEventListener("click", () => {
+        const message = DOMPurify.sanitize(`Please enter your name:<br><input type="text" id="promptInput">`);
+        window.alert(message);
+        setTimeout(() => {
+          const promptInput = document.getElementById("promptInput");
+          if (promptInput) {
+            const sanitizedResult = DOMPurify.sanitize(promptInput.value);
+            if (sanitizedResult === "") {
+              console.log("User didn't enter anything");
+            } else {
+              console.log(`Hello, ${sanitizedResult}!`);
+            }
+          } else {
+            console.log("Prompt input not found");
+          }
+        }, 0);
+      });
+    </script>
+  </body>
 </html>
