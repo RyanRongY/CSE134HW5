@@ -1,4 +1,4 @@
-import { DOMPurify } from 'https://cdn.jsdelivr.net/npm/dompurify@2.3.1/dist/purify.min.js';
+
 
 
 const output = document.querySelector('output');
