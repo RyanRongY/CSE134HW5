@@ -1,84 +1,97 @@
-function showCustomDialog(type) {
-  const dialog = document.querySelector(`#custom-${type}`);
-  const messageElement = dialog.querySelector(`#custom-${type}-message`);
-  const inputElement = dialog.querySelector(`#custom-${type}-input`);
-  const okButton = dialog.querySelector(`#custom-${type}-ok`);
-  const cancelButton = dialog.querySelector(`#custom-${type}-cancel`);
-  let inputValue = '';
 
-  if (type === 'alert') {
-    messageElement.textContent = 'This is a custom alert message!';
-    okButton.addEventListener('click', () => {
-      dialog.close();
-    });
-  } else if (type === 'confirm') {
-    messageElement.textContent = 'Do you confirm?';
-    okButton.addEventListener('click', () => {
-      dialog.returnValue = true;
-      dialog.close();
-    });
-    cancelButton.addEventListener('click', () => {
-      dialog.returnValue = false;
-      dialog.close();
-    });
-  } else if (type === 'prompt') {
-    messageElement.textContent = 'Please enter something:';
-    inputElement.addEventListener('input', () => {
-      inputValue = inputElement.value;
-    });
-    okButton.addEventListener('click', () => {
-      dialog.returnValue = inputValue;
-      dialog.close();
-    });
-    cancelButton.addEventListener('click', () => {
-      dialog.returnValue = null;
-      dialog.close();
-    });
-  } else if (type === 'safer-prompt') {
-    messageElement.textContent = 'Please enter something:';
-    inputElement.addEventListener('input', () => {
-      inputValue = DOMPurify.sanitize(inputElement.value);
-      inputElement.value = inputValue;
-    });
-    okButton.addEventListener('click', () => {
-      dialog.returnValue = inputValue;
-      dialog.close();
-    });
-    cancelButton.addEventListener('click', () => {
-      dialog.returnValue = null;
-      dialog.close();
-    });
-  }
 
-  dialog.showModal();
-  dialog.addEventListener('close', () => {
-    if (dialog.returnValue !== null) {
-      if (type === 'alert') {
-        window.alert(messageElement.textContent);
-      } else if (type === 'confirm') {
-        const confirmOutput = document.querySelector('#confirm-output');
-        if (confirmOutput) {
-          confirmOutput.textContent = `The value returned by the confirm method is: ${dialog.returnValue ? 'Yes' : 'No'}`;
-        }
-      } else if (type === 'prompt') {
-        if (dialog.returnValue) {
-          const successMessage = `You entered: ${dialog.returnValue}`;
-          window.alert(successMessage);
-        } else {
-          const failureMessage = 'User didn’t enter anything';
-          window.alert(failureMessage);
-        }
-      } else if (type === 'safer-prompt') {
-        if (dialog.returnValue) {
-          const successMessage = `You entered: ${dialog.returnValue}`;
-          window.alert(successMessage);
-        } else {
-          const failureMessage = 'User didn’t enter anything';
-          window.alert(failureMessage);
-        }
-      }
-    }
-  });
-}
+const output = document.getElementById('outputField');
 
-export { showCustomDialog };
+// Alert dialog
+const alertBtn = document.getElementById('alertBtn');
+const alertTemplate = document.getElementById('alertTemplate');
+document.body.appendChild(alertTemplate.content.cloneNode(true));
+const alertDialog = document.querySelector('dialog');
+const alertMessage = document.getElementById('alertMessage');
+const okButton = document.getElementById('okButton');
+alertBtn.addEventListener('click', () => {
+	alertMessage.textContent = 'This is an alert dialog';
+	alertDialog.showModal();
+});
+okButton.addEventListener('click', () => {
+	alertDialog.close();
+});
+
+// Confirm dialog
+const confirmBtn = document.getElementById('confirmBtn');
+const confirmTemplate = document.getElementById('confirmTemplate');
+document.body.appendChild(confirmTemplate.content.cloneNode(true));
+const confirmDialog = document.querySelector('dialog');
+const confirmMessage = document.getElementById('confirmMessage');
+const yesButton = document.getElementById('yesButton');
+const noButton = document.getElementById('noButton');
+confirmBtn.addEventListener('click', () => {
+	confirmMessage.textContent = 'This is a confirm dialog';
+	confirmDialog.showModal();
+});
+yesButton.addEventListener('click', () => {
+	confirmDialog.close();
+	output.textContent = 'The value returned by the confirm method is: true';
+});
+noButton.addEventListener('click', () => {
+	confirmDialog.close();
+	output.textContent = 'The value returned by the confirm method is: false';
+});
+
+// Prompt dialog
+const promptBtn = document.getElementById('promptBtn');
+const promptTemplate = document.getElementById('promptTemplate');
+document.body.appendChild(promptTemplate.content.cloneNode(true));
+const promptDialog = document.querySelector('dialog');
+const promptMessage = document.getElementById('promptMessage');
+const promptInput = document.getElementById('promptInput');
+const cancelButton = document.getElementById('cancelButton');
+const promptOKButton = document.getElementById('okButton');
+promptBtn.addEventListener('click', () => {
+	promptMessage.textContent = 'Please enter your name:';
+	promptInput.value = '';
+	promptDialog.showModal();
+});
+cancelButton.addEventListener('click', () => {
+	promptDialog.close();
+	output.textContent = 'User cancelled the prompt';
+});
+promptOKButton.addEventListener('click', () => {
+	const promptValue = promptInput.value.trim();
+	if (promptValue === '') {
+		output.textContent = 'User didn\'t enter anything';
+	} else {
+		output.textContent = `Your name is ${promptValue}`;
+	}
+	promptDialog.close();
+});
+
+// Custom dialog
+const customBtn = document.getElementById('customBtn');
+const customTemplate = document.getElementById('customTemplate');
+document.body.appendChild(customTemplate.content.cloneNode(true));
+const customDialog = document.querySelector('dialog');
+const customTitle = document.getElementById('customTitle');
+const customMessage = document.getElementById('customMessage');
+const customYesButton = document.getElementById('yesButton');
+const customNoButton = document.getElementById('noButton');
+customBtn.addEventListener('click', () => {
+	customTitle.textContent = 'Custom Dialog';
+	customMessage.textContent = 'Do you want to proceed with this action?';
+	customDialog.showModal();
+});
+customYesButton.addEventListener('click', () => {
+	customDialog.close();
+	output.textContent = 'User clicked Yes';
+});
+customNoButton.addEventListener('click', () => {
+	customDialog.close();
+	output.textContent = 'User clicked No';
+});
+
+// Sanitize input
+DOMPurify.addHook('beforeSanitizeAttributes', (node) => {
+	if (node.nodeName === 'TEMPLATE') {
+		node.removeAttribute('id');
+	}
+});

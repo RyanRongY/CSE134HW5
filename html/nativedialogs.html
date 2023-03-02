@@ -1,48 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <title>Custom Dialogs</title>
-    <script src="https://cdn.jsdelivr.net/npm/dompurify@2.4.1/dist/purify.min.js"></script>
-    <script type="module" src="./customdialog.js"></script>
-  </head>
-  <body>
-    <h1>Custom Dialogs Example</h1>
-    <button onclick="showCustomDialog('alert')">Alert</button>
-    <button onclick="showCustomDialog('confirm')">Confirm</button>
-    <button onclick="showCustomDialog('prompt')">Prompt</button>
-    <button onclick="showCustomDialog('safer-prompt')">Safer Prompt</button>
-    <br><br>
-    <output id="confirm-output"></output>
+<head>
+	<title>Native Dialogs</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.1/purify.min.js"></script>
+	<script type="module" src="./customdialog.js"></script>
+</head>
+<body>
+	<header>
+		<h1>Native Dialogs</h1>
+	</header>
 
-    <dialog id="custom-alert">
-      <h2>Custom Alert Dialog</h2>
-      <p id="custom-alert-message"></p>
-      <button id="custom-alert-ok">OK</button>
-    </dialog>
+	<main>
+		<section>
+			<h2>Dialog Buttons</h2>
 
-    <dialog id="custom-confirm">
-      <h2>Custom Confirm Dialog</h2>
-      <p id="custom-confirm-message"></p>
-      <button id="custom-confirm-yes">Yes</button>
-      <button id="custom-confirm-no">No</button>
-    </dialog>
+			<div class="dialog-buttons">
+				<button id="alertBtn">Alert</button>
+				<button id="confirmBtn">Confirm</button>
+				<button id="promptBtn">Prompt</button>
+				<button id="customBtn">Custom Dialog</button>
+			</div>
+		</section>
 
-    <dialog id="custom-prompt">
-      <h2>Custom Prompt Dialog</h2>
-      <p id="custom-prompt-message"></p>
-      <input id="custom-prompt-input" type="text">
-      <button id="custom-prompt-ok">OK</button>
-      <button id="custom-prompt-cancel">Cancel</button>
-    </dialog>
+		<section>
+			<h2>Output</h2>
 
-    <dialog id="custom-safer-prompt">
-      <h2>Custom Safer Prompt Dialog</h2>
-      <p id="custom-safer-prompt-message"></p>
-      <input id="custom-safer-prompt-input" type="text">
-      <button id="custom-safer-prompt-ok">OK</button>
-      <button id="custom-safer-prompt-cancel">Cancel</button>
-    </dialog>
+			<div class="output">
+				<label for="outputField">Output:</label>
+				<output id="outputField"></output>
+			</div>
+		</section>
+	</main>
 
-  </body>
+	<template id="alertTemplate">
+		<dialog>
+			<header>
+				<h2>Alert</h2>
+			</header>
+			<main>
+				<p id="alertMessage"></p>
+			</main>
+			<footer>
+				<button id="okButton">OK</button>
+			</footer>
+		</dialog>
+	</template>
+
+	<template id="confirmTemplate">
+		<dialog>
+			<header>
+				<h2>Confirm</h2>
+			</header>
+			<main>
+				<p id="confirmMessage"></p>
+			</main>
+			<footer>
+				<button id="yesButton">Yes</button>
+				<button id="noButton">No</button>
+			</footer>
+		</dialog>
+	</template>
+
+	<template id="promptTemplate">
+		<dialog>
+			<header>
+				<h2>Prompt</h2>
+			</header>
+			<main>
+				<p id="promptMessage"></p>
+				<input type="text" id="promptInput">
+			</main>
+			<footer>
+				<button id="cancelButton">Cancel</button>
+				<button id="okButton">OK</button>
+			</footer>
+		</dialog>
+	</template>
+
+	<template id="customTemplate">
+		<dialog>
+			<header>
+				<h2 id="customTitle"></h2>
+			</header>
+			<main>
+				<p id="customMessage"></p>
+			</main>
+			<footer>
+				<button id="yesButton">Yes</button>
+				<button id="noButton">No</button>
+			</footer>
+		</dialog>
+	</template>
+</body>
 </html>
