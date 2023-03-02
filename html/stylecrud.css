@@ -55,15 +55,16 @@ button {
 }
 
 .edit-post i {
-  color: #1abc9c;
+  color: #fff;
 }
 
 .delete-post i {
-  color: #e74c3c;
+  color: #fff;
 }
 
 form {
-  background-color: #666;
+  
+  background-color: #6d6c6c;
   border-radius: 10px;
   padding: 20px;
   margin-bottom: 20px;
