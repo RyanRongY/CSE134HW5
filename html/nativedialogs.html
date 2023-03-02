@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8">
     <title>Native Dialogs Example</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.2/purify.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.2/purify.min.js"></script>
 	<script type="module" src="./customdialog.js"></script>
   </head>
   <body>
@@ -18,50 +18,33 @@
       <br><br>
       <output id="confirmOutput"></output>
     </main>
-    <script>
-      const alertBtn = document.getElementById("alertBtn");
-      const confirmBtn = document.getElementById("confirmBtn");
-      const promptBtn = document.getElementById("promptBtn");
-      const saferPromptBtn = document.getElementById("saferPromptBtn");
-      const confirmOutput = document.getElementById("confirmOutput");
 
-      alertBtn.addEventListener("click", () => {
-        window.alert("This is an alert message");
-      });
+    <dialog id="alertDialog">
+      <p>This is an alert message</p>
+      <button id="alertOkBtn">OK</button>
+    </dialog>
 
-      confirmBtn.addEventListener("click", () => {
-        const result = window.confirm("Do you want to proceed?");
-        confirmOutput.textContent = `The value returned by the confirm method is: ${result}`;
-      });
+    <dialog id="confirmDialog">
+      <p>Do you want to proceed?</p>
+      <button id="confirmYesBtn">Yes</button>
+      <button id="confirmNoBtn">No</button>
+    </dialog>
 
-      promptBtn.addEventListener("click", () => {
-        const result = window.prompt("What's your name?");
-        if (result === null) {
-          console.log("User cancelled the prompt");
-        } else if (result === "") {
-          console.log("User didn't enter anything");
-        } else {
-          console.log(`Hello, ${result}!`);
-        }
-      });
+    <dialog id="promptDialog">
+      <p>What's your name?</p>
+      <input type="text" id="promptInput">
+      <br><br>
+      <button id="promptOkBtn">OK</button>
+      <button id="promptCancelBtn">Cancel</button>
+    </dialog>
 
-      saferPromptBtn.addEventListener("click", () => {
-        const message = DOMPurify.sanitize(`Please enter your name:<br><input type="text" id="promptInput">`);
-        window.alert(message);
-        setTimeout(() => {
-          const promptInput = document.getElementById("promptInput");
-          if (promptInput) {
-            const sanitizedResult = DOMPurify.sanitize(promptInput.value);
-            if (sanitizedResult === "") {
-              console.log("User didn't enter anything");
-            } else {
-              console.log(`Hello, ${sanitizedResult}!`);
-            }
-          } else {
-            console.log("Prompt input not found");
-          }
-        }, 0);
-      });
-    </script>
+    <dialog id="saferPromptDialog">
+      <p>Please enter your name:</p>
+      <input type="text" id="saferPromptInput">
+      <br><br>
+      <button id="saferPromptOkBtn">OK</button>
+      <button id="saferPromptCancelBtn">Cancel</button>
+    </dialog>
   </body>
 </html>
+    
