@@ -23,11 +23,11 @@ h1 {
   margin-top: 0;
   font-size: 36px;
   font-weight: bold;
-  color: #f1f1f1;
+  color: red;
 }
 
 .post {
-  background-color: #666;
+  background-color: #3e1f74;
   border-radius: 10px;
   padding: 10px;
   margin-bottom: 10px;
