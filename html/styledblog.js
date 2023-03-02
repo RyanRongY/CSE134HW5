@@ -73,61 +73,19 @@ const Blog = (() => {
     };
 
     const editPost = (post) => {
-        // Clone the post template
-        const template = document.getElementById('post-template');
-        const postMarkup = template.content.cloneNode(true);
-        // Update the post markup with the post data
-        const postTitle = postMarkup.querySelector('.post-title');
-        const postDate = postMarkup.querySelector('.post-date');
-        const postSummary = postMarkup.querySelector('.post-summary');
-        postTitle.textContent = post.title;
-        postDate.textContent = post.date;
-        postSummary.textContent = post.summary;
-        // Create a form to edit the post data
-        const editForm = document.createElement('form');
-        const titleLabel = document.createElement('label');
-        titleLabel.textContent = 'Title:';
-        const titleInput = document.createElement('input');
-        titleInput.type = 'text';
-        titleInput.value = post.title;
-        titleLabel.appendChild(titleInput);
-        const dateLabel = document.createElement('label');
-        dateLabel.textContent = 'Date:';
-        const dateInput = document.createElement('input');
-        dateInput.type = 'date';
-        dateInput.value = post.date;
-        dateLabel.appendChild(dateInput);
-        const summaryLabel = document.createElement('label');
-        summaryLabel.textContent = 'Summary:';
-        const summaryTextarea = document.createElement('textarea');
-        summaryTextarea.textContent = post.summary;
-        summaryLabel.appendChild(summaryTextarea);
-        const submitButton = document.createElement('button');
-        submitButton.type = 'submit';
-        submitButton.textContent = 'Save';
-        editForm.appendChild(titleLabel);
-        editForm.appendChild(dateLabel);
-        editForm.appendChild(summaryLabel);
-        editForm.appendChild(submitButton);
-        // Attach event listener to the form submission
-        editForm.addEventListener('submit', (event) => {
-          event.preventDefault();
-          const formData = new FormData(editForm);
-          post.title = formData.get('title');
-          post.date = formData.get('date');
-          post.summary = formData.get('summary');
-          // Render the updated list of posts
+        const { title, date, summary } = post;
+        const newTitle = prompt('Edit title:', title);
+        const newDate = prompt('Edit date:', date);
+        const newSummary = prompt('Edit summary:', summary);
+        if (newTitle && newDate && newSummary) {
+          post.title = newTitle;
+          post.date = newDate;
+          post.summary = newSummary;
           renderPosts();
-          // Save the posts array to localStorage
           savePosts();
-          // Close the custom dialog
-          customDialog.close();
-        });
-        // Create a custom dialog to display the edit form
-        const customDialog = document.createElement('dialog');
-        customDialog.appendChild(editForm);
-        customDialog.showModal();
-      };
+        }
+    };
+      
       
       
       
