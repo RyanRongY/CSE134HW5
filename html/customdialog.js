@@ -1,43 +1,44 @@
+const dialogTemplate = `
+  <dialog>
+    <form method="dialog">
+      <h1></h1>
+      <p></p>
+      <input type="text" />
+      <button type="submit"></button>
+      <button type="reset"></button>
+    </form>
+  </dialog>
+`;
 
+export function showDialog(title, message, submitText, cancelText) {
+  // Create a new dialog element from the template
+  const dialog = document.createElement('template');
+  dialog.innerHTML = DOMPurify.sanitize(dialogTemplate);
+  const dialogElement = dialog.content.firstElementChild;
 
+  // Set the title and message of the dialog
+  dialogElement.querySelector('h1').textContent = title;
+  dialogElement.querySelector('p').textContent = message;
 
-const output = document.querySelector('output');
+  // Set the text of the submit and cancel buttons
+  dialogElement.querySelector('button[type="submit"]').textContent = submitText;
+  dialogElement.querySelector('button[type="reset"]').textContent = cancelText;
 
-function showAlert() {
-	window.alert('This is an alert message.');
+  // Show the dialog
+  document.body.append(dialogElement);
+  dialogElement.showModal();
+
+  // Return a Promise that resolves with the user input or null
+  return new Promise((resolve, reject) => {
+    dialogElement.querySelector('form').addEventListener('submit', (event) => {
+      event.preventDefault();
+      const input = dialogElement.querySelector('input').value;
+      dialogElement.remove();
+      resolve(input);
+    });
+    dialogElement.querySelector('form').addEventListener('reset', () => {
+      dialogElement.remove();
+      resolve(null);
+    });
+  });
 }
-
-function showConfirm() {
-	const result = window.confirm('Are you sure?');
-	output.textContent = `The value returned by the confirm method is: ${result}`;
-}
-
-function showPrompt() {
-	const result = window.prompt('Please enter your name:');
-	if (result === null) {
-		output.textContent = 'User cancelled the prompt.';
-	} else if (result.trim() === '') {
-		output.textContent = 'User didn\'t enter anything.';
-	} else {
-		output.textContent = `Hello, ${result.trim()}!`;
-	}
-}
-
-function showSafePrompt() {
-	const result = window.prompt('Please enter your message:');
-	if (result === null) {
-		output.textContent = 'User cancelled the prompt.';
-	} else if (result.trim() === '') {
-		output.textContent = 'User didn\'t enter anything.';
-	} else {
-		// Sanitize user input to guard against XSS attacks
-		const safeResult = DOMPurify.sanitize(result.trim());
-		// Use tagged template string to render sanitized input
-		output.innerHTML = `You entered: ${safeResult}`;
-	}
-}
-
-document.getElementById('alert-btn').addEventListener('click', showAlert);
-document.getElementById('confirm-btn').addEventListener('click', showConfirm);
-document.getElementById('prompt-btn').addEventListener('click', showPrompt);
-document.getElementById('safe-prompt-btn').addEventListener('click', showSafePrompt);
