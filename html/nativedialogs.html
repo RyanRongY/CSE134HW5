@@ -6,90 +6,47 @@
 	<script type="module" src="./customdialog.js"></script>
 </head>
 <body>
-	<header>
-		<h1>Native Dialogs</h1>
-	</header>
-
-	<main>
-		<section>
-			<h2>Dialog Buttons</h2>
-
-			<div class="dialog-buttons">
-				<button id="alertBtn">Alert</button>
-				<button id="confirmBtn">Confirm</button>
-				<button id="promptBtn">Prompt</button>
-				<button id="customBtn">Custom Dialog</button>
-			</div>
-		</section>
-
-		<section>
-			<h2>Output</h2>
-
-			<div class="output">
-				<label for="outputField">Output:</label>
-				<output id="outputField"></output>
-			</div>
-		</section>
-	</main>
+	<h1>Custom Dialogs</h1>
 
 	<template id="alertTemplate">
 		<dialog>
-			<header>
-				<h2>Alert</h2>
-			</header>
-			<main>
-				<p id="alertMessage"></p>
-			</main>
-			<footer>
-				<button id="okButton">OK</button>
-			</footer>
+			<p id="alertMessage"></p>
+			<button id="alertYesButton">OK</button>
 		</dialog>
 	</template>
 
 	<template id="confirmTemplate">
 		<dialog>
-			<header>
-				<h2>Confirm</h2>
-			</header>
-			<main>
-				<p id="confirmMessage"></p>
-			</main>
-			<footer>
-				<button id="yesButton">Yes</button>
-				<button id="noButton">No</button>
-			</footer>
+			<p id="confirmMessage"></p>
+			<button id="confirmYesButton">Yes</button>
+			<button id="confirmNoButton">No</button>
 		</dialog>
 	</template>
 
 	<template id="promptTemplate">
 		<dialog>
-			<header>
-				<h2>Prompt</h2>
-			</header>
-			<main>
-				<p id="promptMessage"></p>
-				<input type="text" id="promptInput">
-			</main>
-			<footer>
-				<button id="cancelButton">Cancel</button>
-				<button id="okButton">OK</button>
-			</footer>
+			<p id="promptMessage"></p>
+			<input type="text" id="promptInput">
+			<button id="promptCancelButton">Cancel</button>
+			<button id="promptYesButton">OK</button>
 		</dialog>
 	</template>
 
 	<template id="customTemplate">
 		<dialog>
-			<header>
-				<h2 id="customTitle"></h2>
-			</header>
-			<main>
-				<p id="customMessage"></p>
-			</main>
-			<footer>
-				<button id="yesButton">Yes</button>
-				<button id="noButton">No</button>
-			</footer>
+			<h2 id="customTitle"></h2>
+			<p id="customMessage"></p>
+			<button id="customYesButton">Yes</button>
+			<button id="customNoButton">No</button>
 		</dialog>
 	</template>
+
+	<p id="outputField"></p>
+
+	<button id="alertBtn">Alert</button>
+	<button id="confirmBtn">Confirm</button>
+	<button id="promptBtn">Prompt</button>
+	<button id="customBtn">Custom</button>
+
 </body>
 </html>

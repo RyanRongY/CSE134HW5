@@ -1,3 +1,5 @@
+import DOMPurify from 'dompurify';
+
 const output = document.getElementById('outputField');
 
 // Alert dialog
@@ -45,7 +47,7 @@ const promptDialog = document.querySelector('dialog');
 const promptMessage = document.getElementById('promptMessage');
 const promptInput = document.getElementById('promptInput');
 const promptCancelButton = document.getElementById('promptCancelButton');
-const promptOKButton = document.getElementById('promptOKButton');
+const promptYesButton = document.getElementById('promptYesButton');
 promptBtn.addEventListener('click', () => {
 	promptMessage.textContent = 'Please enter your name:';
 	promptInput.value = '';
@@ -55,7 +57,7 @@ promptCancelButton.addEventListener('click', () => {
 	promptDialog.close();
 	output.textContent = 'User cancelled the prompt';
 });
-promptOKButton.addEventListener('click', () => {
+promptYesButton.addEventListener('click', () => {
 	const promptValue = promptInput.value.trim();
 	if (promptValue === '') {
 		output.textContent = 'User didn\'t enter anything';
