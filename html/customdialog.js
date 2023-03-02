@@ -1,4 +1,4 @@
-
+import DOMPurify from 'dompurify';
 
 const output = document.getElementById('outputField');
 
@@ -8,12 +8,13 @@ const alertTemplate = document.getElementById('alertTemplate');
 document.body.appendChild(alertTemplate.content.cloneNode(true));
 const alertDialog = document.querySelector('dialog');
 const alertMessage = document.getElementById('alertMessage');
-const okButton = document.getElementById('okButton');
+const alertYesButton = document.getElementById('alertYesButton');
+const alertNoButton = document.getElementById('alertNoButton');
 alertBtn.addEventListener('click', () => {
 	alertMessage.textContent = 'This is an alert dialog';
 	alertDialog.showModal();
 });
-okButton.addEventListener('click', () => {
+alertYesButton.addEventListener('click', () => {
 	alertDialog.close();
 });
 
@@ -23,17 +24,17 @@ const confirmTemplate = document.getElementById('confirmTemplate');
 document.body.appendChild(confirmTemplate.content.cloneNode(true));
 const confirmDialog = document.querySelector('dialog');
 const confirmMessage = document.getElementById('confirmMessage');
-const yesButton = document.getElementById('yesButton');
-const noButton = document.getElementById('noButton');
+const confirmYesButton = document.getElementById('confirmYesButton');
+const confirmNoButton = document.getElementById('confirmNoButton');
 confirmBtn.addEventListener('click', () => {
 	confirmMessage.textContent = 'This is a confirm dialog';
 	confirmDialog.showModal();
 });
-yesButton.addEventListener('click', () => {
+confirmYesButton.addEventListener('click', () => {
 	confirmDialog.close();
 	output.textContent = 'The value returned by the confirm method is: true';
 });
-noButton.addEventListener('click', () => {
+confirmNoButton.addEventListener('click', () => {
 	confirmDialog.close();
 	output.textContent = 'The value returned by the confirm method is: false';
 });
@@ -45,14 +46,14 @@ document.body.appendChild(promptTemplate.content.cloneNode(true));
 const promptDialog = document.querySelector('dialog');
 const promptMessage = document.getElementById('promptMessage');
 const promptInput = document.getElementById('promptInput');
-const cancelButton = document.getElementById('cancelButton');
-const promptOKButton = document.getElementById('okButton');
+const promptCancelButton = document.getElementById('promptCancelButton');
+const promptOKButton = document.getElementById('promptOKButton');
 promptBtn.addEventListener('click', () => {
 	promptMessage.textContent = 'Please enter your name:';
 	promptInput.value = '';
 	promptDialog.showModal();
 });
-cancelButton.addEventListener('click', () => {
+promptCancelButton.addEventListener('click', () => {
 	promptDialog.close();
 	output.textContent = 'User cancelled the prompt';
 });
@@ -73,8 +74,8 @@ document.body.appendChild(customTemplate.content.cloneNode(true));
 const customDialog = document.querySelector('dialog');
 const customTitle = document.getElementById('customTitle');
 const customMessage = document.getElementById('customMessage');
-const customYesButton = document.getElementById('yesButton');
-const customNoButton = document.getElementById('noButton');
+const customYesButton = document.getElementById('customYesButton');
+const customNoButton = document.getElementById('customNoButton');
 customBtn.addEventListener('click', () => {
 	customTitle.textContent = 'Custom Dialog';
 	customMessage.textContent = 'Do you want to proceed with this action?';
