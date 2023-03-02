@@ -41,17 +41,15 @@ const Blog = (() => {
     };
   
     const renderPosts = () => {
-        const postList = document.getElementById('post-list');
-        postList.innerHTML = '';
-        posts.forEach((post) => {
-          const postMarkup = renderPost(post);
-          postMarkup.style.opacity = 0;
-          postList.appendChild(postMarkup);
-          // Add a fade-in effect
-          window.requestAnimationFrame(() => {
-            postMarkup.style.opacity = 1;
-          });
-        });
+      // Get the DOM element where the posts will be displayed
+      const postList = document.getElementById('post-list');
+      // Clear the existing content
+      postList.innerHTML = '';
+      // Loop over the posts array and render each post
+      posts.forEach((post) => {
+        const postMarkup = renderPost(post);
+        postList.appendChild(postMarkup);
+      });
     };
   
     const addPost = (post) => {
@@ -76,48 +74,21 @@ const Blog = (() => {
 
     const editPost = (post) => {
         const { title, date, summary } = post;
-        const dialog = document.createElement('dialog');
-        dialog.classList.add('custom-dialog');
-        dialog.innerHTML = `
-          <form>
-            <label for="title">Title:</label>
-            <input type="text" id="title" name="title" value="${title}">
-            <label for="date">Date:</label>
-            <input type="date" id="date" name="date" value="${date}">
-            <label for="summary">Summary:</label>
-            <textarea id="summary" name="summary">${summary}</textarea>
-            <button type="submit">Save</button>
-          </form>
-        `;
-        document.body.appendChild(dialog);
-        // Add a slide-in animation
-        dialog.style.transform = 'translateX(-100%)';
-        window.requestAnimationFrame(() => {
-          dialog.style.transform = 'translateX(0)';
-        });
-        const form = dialog.querySelector('form');
-        form.addEventListener('submit', (event) => {
-          event.preventDefault();
-          const formData = new FormData(form);
-          post.title = formData.get('title');
-          post.date = formData.get('date');
-          post.summary = formData.get('summary');
+        const newTitle = prompt('Edit title:', title);
+        const newDate = prompt('Edit date:', date);
+        const newSummary = prompt('Edit summary:', summary);
+        if (newTitle && newDate && newSummary) {
+          post.title = newTitle;
+          post.date = newDate;
+          post.summary = newSummary;
           renderPosts();
           savePosts();
-          // Add a slide-out animation
-          dialog.style.transform = 'translateX(0)';
-          window.requestAnimationFrame(() => {
-            dialog.style.transform = 'translateX(-100%)';
-            dialog.addEventListener('transitionend', () => {
-              dialog.remove();
-            }, { once: true });
-          });
-        });
+        }
       };
       
       
       
-            
+      
     // Public API
     return {
       init() {
