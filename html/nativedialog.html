@@ -17,7 +17,7 @@
 
       function showPrompt() {
         const userInput = window.prompt('Please enter your name:');
-        const sanitizedInput = DOMPurify.sanitize(userInput);
+        const sanitizedInput = userInput;
         const output = document.getElementById('output');
         if (sanitizedInput === null) {
           output.textContent = 'User canceled';
