@@ -1,17 +1,18 @@
-const alertDialog = document.getElementById("alertDialog");
-const alertOkBtn = document.getElementById("alertOkBtn");
-const confirmDialog = document.getElementById("confirmDialog");
-const confirmYesBtn = document.getElementById("confirmYesBtn");
-const confirmNoBtn = document.getElementById("confirmNoBtn");
-const promptDialog = document.getElementById("promptDialog");
-const promptInput = document.getElementById("promptInput");
-const promptOkBtn = document.getElementById("promptOkBtn");
-const promptCancelBtn = document.getElementById("promptCancelBtn");
-const saferPromptDialog = document.getElementById("saferPromptDialog");
-const saferPromptInput = document.getElementById("saferPromptInput");
-const saferPromptOkBtn = document.getElementById("saferPromptOkBtn");
-const saferPromptCancelBtn = document.getElementById("saferPromptCancelBtn");
-const confirmOutput = document.getElementById("confirmOutput");
+const alertDialog = document.querySelector("#alertDialog");
+const alertOkBtn = document.querySelector("#alertOkBtn");
+const confirmDialog = document.querySelector("#confirmDialog");
+const confirmYesBtn = document.querySelector("#confirmYesBtn");
+const confirmNoBtn = document.querySelector("#confirmNoBtn");
+const promptDialog = document.querySelector("#promptDialog");
+const promptInput = document.querySelector("#promptInput");
+const promptOkBtn = document.querySelector("#promptOkBtn");
+const promptCancelBtn = document.querySelector("#promptCancelBtn");
+const saferPromptDialog = document.querySelector("#saferPromptDialog");
+const saferPromptInput = document.querySelector("#saferPromptInput");
+const saferPromptOkBtn = document.querySelector("#saferPromptOkBtn");
+const saferPromptCancelBtn = document.querySelector("#saferPromptCancelBtn");
+const confirmOutput = document.querySelector("#confirmOutput");
+
 
 alertBtn.addEventListener("click", () => {
   alertDialog.showModal();
