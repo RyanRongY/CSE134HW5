@@ -73,19 +73,42 @@ const Blog = (() => {
     };
 
     const editPost = (post) => {
-        const { title, date, summary } = post;
-        const newTitle = prompt('Edit title:', title);
-        const newDate = prompt('Edit date:', date);
-        const newSummary = prompt('Edit summary:', summary);
-        if (newTitle && newDate && newSummary) {
-          post.title = newTitle;
-          post.date = newDate;
-          post.summary = newSummary;
-          renderPosts();
-          savePosts();
-        }
-      };
-      
+      const { title, date, summary } = post;
+      // Create a dialog element
+      const dialog = document.createElement('dialog');
+      // Import the add form template into the dialog
+      const template = document.getElementById('add-form-template');
+      const form = document.importNode(template.content, true);
+      dialog.appendChild(form);
+      // Populate the form fields with the post data
+      const titleInput = dialog.querySelector('#title-input');
+      const dateInput = dialog.querySelector('#date-input');
+      const summaryInput = dialog.querySelector('#summary-input');
+      titleInput.value = title;
+      dateInput.value = date;
+      summaryInput.value = summary;
+      // Attach event listeners to the dialog form
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        post.title = titleInput.value;
+        post.date = dateInput.value;
+        post.summary = summaryInput.value;
+        renderPosts();
+        savePosts();
+        dialog.close();
+      });
+      // Attach event listener to the dialog close button
+      const closeButton = dialog.querySelector('[data-dialog-close]');
+      closeButton.addEventListener('click', () => {
+        dialog.close();
+      });
+      // Attach the dialog to the document
+      document.body.appendChild(dialog);
+      // Open the dialog
+      dialog.showModal();
+    };
+    
+    
       
       
       

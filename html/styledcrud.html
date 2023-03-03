@@ -22,6 +22,7 @@
         <button type="submit">Add</button>
       </form>
     </main>
+
     <template id="post-template">
       <li class="post">
         <h2 class="post-title"></h2>
@@ -33,5 +34,21 @@
         </div>
       </li>
     </template>
+    
+    <template id="add-form-template">
+      <form id="add-form">
+        <label for="title-input">Title:</label>
+        <input id="title-input" class="form-input" type="text" name="title" required>
+        <label for="date-input">Date:</label>
+        <input id="date-input" class="form-input" type="text" name="date" required>
+        <label for="summary-input">Summary:</label>
+        <textarea id="summary-input" class="form-input" name="summary" rows="3" required></textarea>
+        <div class="form-actions">
+          <button class="form-button" type="submit">Save</button>
+          <button class="form-button" type="button" data-dialog-close>Cancel</button>
+        </div>
+      </form>
+    </template>
+    
   </body>
 </html>
