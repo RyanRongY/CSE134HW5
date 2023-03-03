@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Native Dialogs Example</title>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@2.3.1/dist/purify.min.js"></script>
+    <script>
+      function showAlert() {
+        window.alert('This is a built-in alert dialog');
+      }
+
+      function showConfirm() {
+        const result = window.confirm('This is a built-in confirm dialog');
+        const output = document.getElementById('output');
+        output.textContent = `The value returned by the confirm method is: ${result}`;
+      }
+
+      function showPrompt() {
+        const userInput = window.prompt('Please enter something:');
+        const sanitizedInput = DOMPurify.sanitize(userInput);
+        const output = document.getElementById('output');
+        if (sanitizedInput === null) {
+          output.textContent = 'User canceled the prompt';
+        } else if (sanitizedInput === '') {
+          output.textContent = 'User didn\'t enter anything';
+        } else {
+          output.textContent = `User entered: ${sanitizedInput}`;
+        }
+      }
+
+      function showSaferPrompt() {
+        const userInput = window.prompt(html`Please enter something:`);
+        const sanitizedInput = DOMPurify.sanitize(userInput);
+        const output = document.getElementById('output');
+        if (sanitizedInput === null) {
+          output.textContent = 'User canceled the prompt';
+        } else if (sanitizedInput === '') {
+          output.textContent = 'User didn\'t enter anything';
+        } else {
+          output.textContent = `User entered: ${sanitizedInput}`;
+        }
+      }
+
+      // tagged template string to sanitize user input with DOMPurify
+      function html(strings, ...values) {
+        const dirty = strings.reduce((prev, next, i) => `${prev}${next}${values[i] || ''}`, '');
+        return DOMPurify.sanitize(dirty);
+      }
+    </script>
+  </head>
+  <body>
+    <main>
+        <h1>Native Dialogs Example</h1>
+    <button onclick="showAlert()">Alert</button>
+    <button onclick="showConfirm()">Confirm</button>
+    <button onclick="showPrompt()">Prompt</button>
+    <button onclick="showSaferPrompt()">Safer Prompt</button>
+    <br><br>
+    <label for="output">Output:</label>
+    <output id="output"></output>
+    </main>
+    
+  </body>
+</html>
