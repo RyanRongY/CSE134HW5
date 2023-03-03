@@ -1,19 +1,22 @@
-const alertDialog = document.getElementById("alertDialog");
-const alertOkBtn = document.getElementById("alertOkBtn");
-const confirmDialog = document.getElementById("confirmDialog");
-const confirmYesBtn = document.getElementById("confirmYesBtn");
-const confirmNoBtn = document.getElementById("confirmNoBtn");
-const promptDialog = document.getElementById("promptDialog");
-const promptInput = document.getElementById("promptInput");
-const promptOkBtn = document.getElementById("promptOkBtn");
-const promptCancelBtn = document.getElementById("promptCancelBtn");
-const saferPromptDialog = document.getElementById("saferPromptDialog");
-const saferPromptInput = document.getElementById("saferPromptInput");
-const saferPromptOkBtn = document.getElementById("saferPromptOkBtn");
-const saferPromptCancelBtn = document.getElementById("saferPromptCancelBtn");
+const template = document.querySelector("template");
+const alertDialog = template.content.querySelector("#alertDialog");
+const alertOkBtn = template.content.querySelector("#alertOkBtn");
+const confirmDialog = template.content.querySelector("#confirmDialog");
+const confirmYesBtn = template.content.querySelector("#confirmYesBtn");
+const confirmNoBtn = template.content.querySelector("#confirmNoBtn");
+const promptDialog = template.content.querySelector("#promptDialog");
+const promptInput = template.content.querySelector("#promptInput");
+const promptOkBtn = template.content.querySelector("#promptOkBtn");
+const promptCancelBtn = template.content.querySelector("#promptCancelBtn");
+const saferPromptDialog = template.content.querySelector("#saferPromptDialog");
+const saferPromptInput = template.content.querySelector("#saferPromptInput");
+const saferPromptOkBtn = template.content.querySelector("#saferPromptOkBtn");
+const saferPromptCancelBtn = template.content.querySelector("#saferPromptCancelBtn");
 const confirmOutput = document.getElementById("confirmOutput");
 
-alertBtn.addEventListener("click", () => {
+document.body.appendChild(template.content.cloneNode(true));
+
+document.getElementById("alertBtn").addEventListener("click", () => {
   alertDialog.showModal();
 });
 
@@ -21,7 +24,7 @@ alertOkBtn.addEventListener("click", () => {
   alertDialog.close();
 });
 
-confirmBtn.addEventListener("click", () => {
+document.getElementById("confirmBtn").addEventListener("click", () => {
   confirmDialog.showModal();
 });
 
@@ -35,7 +38,7 @@ confirmNoBtn.addEventListener("click", () => {
   confirmDialog.close();
 });
 
-promptBtn.addEventListener("click", () => {
+document.getElementById("promptBtn").addEventListener("click", () => {
   promptDialog.showModal();
 });
 
@@ -56,7 +59,7 @@ promptCancelBtn.addEventListener("click", () => {
   promptDialog.close();
 });
 
-saferPromptBtn.addEventListener("click", () => {
+document.getElementById("saferPromptBtn").addEventListener("click", () => {
   saferPromptDialog.showModal();
 });
 
