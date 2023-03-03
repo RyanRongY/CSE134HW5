@@ -65,7 +65,7 @@ saferPromptOkBtn.addEventListener("click", () => {
   if (sanitizedResult === "") {
     confirmOutput.textContent = "You did not enter anything";
   } else {
-    confirmOutput.textContent= `Welcome, ${saferPromptInput.value}`;
+    confirmOutput.textContent= `Welcome, ${sanitizedResult}`;
   }
   saferPromptInput.value = "";
   saferPromptDialog.close();
