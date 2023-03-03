@@ -43,7 +43,7 @@ promptOkBtn.addEventListener("click", () => {
   if (promptInput.value === "") {
     confirmOutput.textContent = "You did not enter anything";
   } else {
-    confirmOutput.textContent= `Welcome, ${promptInput}`;
+    confirmOutput.textContent= `Welcome, ${promptInput.value}`;
   }
   promptInput.value = "";
   promptDialog.close();
