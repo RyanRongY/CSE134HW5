@@ -1,5 +1,3 @@
-
-
 const alertDialog = document.getElementById("alertDialog");
 const alertOkBtn = document.getElementById("alertOkBtn");
 const confirmDialog = document.getElementById("confirmDialog");
@@ -43,16 +41,16 @@ promptBtn.addEventListener("click", () => {
 
 promptOkBtn.addEventListener("click", () => {
   if (promptInput.value === "") {
-    console.log("User didn't enter anything");
+    confirmOutput.textContent = "You did not enter anything";
   } else {
-    console.log(`Hello, ${promptInput.value}!`);
+    confirmOutput.textContent= `Welcome, ${promptInput}`;
   }
   promptInput.value = "";
   promptDialog.close();
 });
 
 promptCancelBtn.addEventListener("click", () => {
-  console.log("User cancelled the prompt");
+  console.log("You cancelled input prompt");
   promptInput.value = "";
   promptDialog.close();
 });
