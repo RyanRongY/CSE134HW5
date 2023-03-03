@@ -40,11 +40,11 @@ promptBtn.addEventListener("click", () => {
 });
 
 promptOkBtn.addEventListener("click", () => {
-  const sanP=DOMPurify.sanitize(promptInput.value)
-  if (sanP.value === "") {
+  if (promptInput.value === "") {
     confirmOutput.textContent = "You did not enter anything";
+
   } else {
-    confirmOutput.textContent= `Welcome, ${sanP.value}`;
+    confirmOutput.textContent= `Welcome, ${promptInput.value}`;
   }
   promptInput.value = "";
   promptDialog.close();
@@ -72,7 +72,7 @@ saferPromptOkBtn.addEventListener("click", () => {
 });
 
 saferPromptCancelBtn.addEventListener("click", () => {
-  console.log("User cancelled the prompt");
+  confirmOutput.textContent = "You cancelled";
   saferPromptInput.value = "";
   saferPromptDialog.close();
 });
