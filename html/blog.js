@@ -73,22 +73,41 @@ const Blog = (() => {
   };
 
   const editPost = (post) => {
-      const { title, date, summary } = post;
-      const newTitle = prompt('Edit title:', title);
-      const newDate = prompt('Edit date:', date);
-      const newSummary = prompt('Edit summary:', summary);
-      if (newTitle && newDate && newSummary) {
-        post.title = newTitle;
-        post.date = newDate;
-        post.summary = newSummary;
-        renderPosts();
-        savePosts();
-      }
-    };
-    
-    
-    
-    
+    const { title, date, summary } = post;
+    // Create a dialog element
+    const dialog = document.createElement('dialog');
+    dialog.innerHTML = `
+      <form>
+        <label for="title-input">Title:</label>
+        <input id="title-input" type="text" value="${title}">
+        <br>
+        <label for="date-input">Date:</label>
+        <input id="date-input" type="text" value="${date}">
+        <br>
+        <label for="summary-input">Summary:</label>
+        <textarea id="summary-input">${summary}</textarea>
+        <br>
+        <button type="submit">Save</button>
+        <button type="button" data-dialog-close>Cancel</button>
+      </form>
+    `;
+    // Attach event listeners to the dialog form
+    const form = dialog.querySelector('form');
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      post.title = form.elements['title-input'].value;
+      post.date = form.elements['date-input'].value;
+      post.summary = form.elements['summary-input'].value;
+      renderPosts();
+      savePosts();
+      dialog.close();
+    });
+    // Attach the dialog to the document
+    document.body.appendChild(dialog);
+    // Open the dialog
+    dialog.showModal();
+  };
+  
   // Public API
   return {
     init() {
