@@ -16,7 +16,7 @@
       }
 
       function showPrompt() {
-        const userInput = window.prompt('Please enter your legal name:');
+        const userInput = window.prompt('Please enter your name:');
         const sanitizedInput = DOMPurify.sanitize(userInput);
         const output = document.getElementById('output');
         if (sanitizedInput === null) {
@@ -29,7 +29,7 @@
       }
 
       function showSaferPrompt() {
-        const userInput = window.prompt(html`Please enter your nickname:`);
+        const userInput = window.prompt('Please enter your name:');
         const sanitizedInput = DOMPurify.sanitize(userInput);
         const output = document.getElementById('output');
         if (sanitizedInput === null) {
@@ -41,11 +41,6 @@
         }
       }
 
-      // tagged template string to sanitize user input with DOMPurify
-      function html(strings, ...values) {
-        const dirty = strings.reduce((prev, next, i) => `${prev}${next}${values[i] || ''}`, '');
-        return DOMPurify.sanitize(dirty);
-      }
     </script>
   </head>
   <body>
