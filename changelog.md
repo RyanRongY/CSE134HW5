@@ -1,4 +1,4 @@
-Part 1 improve Website 
+#Part 1 improve Website 
 
 1. I readjust the margins and padding to improve the spacing between elements in the css file. 
 Now the topics of each sections are in the center of their paddings 
@@ -7,7 +7,7 @@ Now the topics of each sections are in the center of their paddings
 4. I change the whole design of the contact form so that it fits better with the whole site. 
 5. In the skills section I updated the newest skills I learnt in the past quarter and also  adjust the style for all the skill list items 
 
-Part 2 use 3rd party js 
+#Part 2 use 3rd party js 
 
 As part of my portfolio site update, I added Google Analytics to my site to track visitor behavior and gain insights into how visitors are interacting with my site. I added the Google Analytics tracking code to the head section of my site's HTML code, as recommended by Google.
 
