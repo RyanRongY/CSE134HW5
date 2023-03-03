@@ -76,30 +76,30 @@ const Blog = (() => {
       const { title, date, summary } = post;
       // Create a dialog element
       const dialog = document.createElement('dialog');
-      // Import the add form template into the dialog
-      const template = document.getElementById('add-form-template');
-      const form = document.importNode(template.content, true);
-      dialog.appendChild(form);
-      // Populate the form fields with the post data
-      const titleInput = dialog.querySelector('#title-input');
-      const dateInput = dialog.querySelector('#date-input');
-      const summaryInput = dialog.querySelector('#summary-input');
-      titleInput.value = title;
-      dateInput.value = date;
-      summaryInput.value = summary;
+      dialog.innerHTML = `
+        <form>
+          <label for="title-input">Title:</label>
+          <input id="title-input" type="text" value="${title}">
+          <br>
+          <label for="date-input">Date:</label>
+          <input id="date-input" type="text" value="${date}">
+          <br>
+          <label for="summary-input">Summary:</label>
+          <textarea id="summary-input">${summary}</textarea>
+          <br>
+          <button type="submit">Save</button>
+          <button type="button" data-dialog-close>Cancel</button>
+        </form>
+      `;
       // Attach event listeners to the dialog form
+      const form = dialog.querySelector('form');
       form.addEventListener('submit', (event) => {
         event.preventDefault();
-        post.title = titleInput.value;
-        post.date = dateInput.value;
-        post.summary = summaryInput.value;
+        post.title = form.elements['title-input'].value;
+        post.date = form.elements['date-input'].value;
+        post.summary = form.elements['summary-input'].value;
         renderPosts();
         savePosts();
-        dialog.close();
-      });
-      // Attach event listener to the dialog close button
-      const closeButton = dialog.querySelector('[data-dialog-close]');
-      closeButton.addEventListener('click', () => {
         dialog.close();
       });
       // Attach the dialog to the document
@@ -108,10 +108,7 @@ const Blog = (() => {
       dialog.showModal();
     };
     
-    
-      
-      
-      
+        
     // Public API
     return {
       init() {
