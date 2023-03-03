@@ -1,81 +1,93 @@
-const template = document.querySelector("template");
-const alertDialog = template.content.querySelector("#alertDialog");
-const alertOkBtn = template.content.querySelector("#alertOkBtn");
-const confirmDialog = template.content.querySelector("#confirmDialog");
-const confirmYesBtn = template.content.querySelector("#confirmYesBtn");
-const confirmNoBtn = template.content.querySelector("#confirmNoBtn");
-const promptDialog = template.content.querySelector("#promptDialog");
-const promptInput = template.content.querySelector("#promptInput");
-const promptOkBtn = template.content.querySelector("#promptOkBtn");
-const promptCancelBtn = template.content.querySelector("#promptCancelBtn");
-const saferPromptDialog = template.content.querySelector("#saferPromptDialog");
-const saferPromptInput = template.content.querySelector("#saferPromptInput");
-const saferPromptOkBtn = template.content.querySelector("#saferPromptOkBtn");
-const saferPromptCancelBtn = template.content.querySelector("#saferPromptCancelBtn");
-const confirmOutput = document.getElementById("confirmOutput");
+// Clone dialog templates and add them to the body
+const alertTemplate = document.getElementById('alertTemplate');
+const alertDialog = alertTemplate.content.cloneNode(true).querySelector('dialog');
+document.body.appendChild(alertDialog);
 
-document.body.appendChild(template.content.cloneNode(true));
+const confirmTemplate = document.getElementById('confirmTemplate');
+const confirmDialog = confirmTemplate.content.cloneNode(true).querySelector('dialog');
+document.body.appendChild(confirmDialog);
 
-document.getElementById("alertBtn").addEventListener("click", () => {
-  alertDialog.showModal();
-});
+const promptTemplate = document.getElementById('promptTemplate');
+const promptDialog = promptTemplate.content.cloneNode(true).querySelector('dialog');
+document.body.appendChild(promptDialog);
 
-alertOkBtn.addEventListener("click", () => {
+const saferPromptTemplate = document.getElementById('saferPromptTemplate');
+const saferPromptDialog = saferPromptTemplate.content.cloneNode(true).querySelector('dialog');
+document.body.appendChild(saferPromptDialog);
+
+// Get dialog elements and buttons
+const alertOkBtn = alertDialog.querySelector('button');
+const confirmYesBtn = confirmDialog.querySelector('.confirm-yes');
+const confirmNoBtn = confirmDialog.querySelector('.confirm-no');
+const promptInput = promptDialog.querySelector('input');
+const promptOkBtn = promptDialog.querySelector('.prompt-ok');
+const promptCancelBtn = promptDialog.querySelector('.prompt-cancel');
+const saferPromptInput = saferPromptDialog.querySelector('input');
+const saferPromptOkBtn = saferPromptDialog.querySelector('.safer-prompt-ok');
+const saferPromptCancelBtn = saferPromptDialog.querySelector('.safer-prompt-cancel');
+const confirmOutput = document.getElementById('confirmOutput');
+
+// Add event listeners to buttons
+alertOkBtn.addEventListener('click', () => {
   alertDialog.close();
 });
 
-document.getElementById("confirmBtn").addEventListener("click", () => {
+confirmYesBtn.addEventListener('click', () => {
+  confirmOutput.textContent = 'The value returned by the confirm method is: true';
+  confirmDialog.close();
+});
+
+confirmNoBtn.addEventListener('click', () => {
+  confirmOutput.textContent = 'The value returned by the confirm method is: false';
+  confirmDialog.close();
+});
+
+promptOkBtn.addEventListener('click', () => {
+  if (promptInput.value === '') {
+    confirmOutput.textContent = 'You did not enter anything';
+  } else {
+    confirmOutput.textContent = `Welcome, ${promptInput.value}`;
+  }
+  promptInput.value = '';
+  promptDialog.close();
+});
+
+promptCancelBtn.addEventListener('click', () => {
+  confirmOutput.textContent = 'You cancelled';
+  promptInput.value = '';
+  promptDialog.close();
+});
+
+saferPromptOkBtn.addEventListener('click', () => {
+  const sanitizedResult = DOMPurify.sanitize(saferPromptInput.value);
+  if (sanitizedResult === '') {
+    confirmOutput.textContent = 'You did not enter anything';
+  } else {
+    confirmOutput.textContent = `Welcome, ${sanitizedResult}`;
+  }
+  saferPromptInput.value = '';
+  saferPromptDialog.close();
+});
+
+saferPromptCancelBtn.addEventListener('click', () => {
+  confirmOutput.textContent = 'You cancelled';
+  saferPromptInput.value = '';
+  saferPromptDialog.close();
+});
+
+// Show dialogs when buttons are clicked
+document.getElementById('alertBtn').addEventListener('click', () => {
+  alertDialog.showModal();
+});
+
+document.getElementById('confirmBtn').addEventListener('click', () => {
   confirmDialog.showModal();
 });
 
-confirmYesBtn.addEventListener("click", () => {
-  confirmOutput.textContent = "The value returned by the confirm method is: true";
-  confirmDialog.close();
-});
-
-confirmNoBtn.addEventListener("click", () => {
-  confirmOutput.textContent = "The value returned by the confirm method is: false";
-  confirmDialog.close();
-});
-
-document.getElementById("promptBtn").addEventListener("click", () => {
+document.getElementById('promptBtn').addEventListener('click', () => {
   promptDialog.showModal();
 });
 
-promptOkBtn.addEventListener("click", () => {
-  if (promptInput.value === "") {
-    confirmOutput.textContent = "You did not enter anything";
-
-  } else {
-    confirmOutput.textContent= `Welcome, ${promptInput.value}`;
-  }
-  promptInput.value = "";
-  promptDialog.close();
-});
-
-promptCancelBtn.addEventListener("click", () => {
-  confirmOutput.textContent = "You cancelled";
-  promptInput.value = "";
-  promptDialog.close();
-});
-
-document.getElementById("saferPromptBtn").addEventListener("click", () => {
+document.getElementById('saferPromptBtn').addEventListener('click', () => {
   saferPromptDialog.showModal();
-});
-
-saferPromptOkBtn.addEventListener("click", () => {
-  const sanitizedResult = DOMPurify.sanitize(saferPromptInput.value);
-  if (sanitizedResult === "") {
-    confirmOutput.textContent = "You did not enter anything";
-  } else {
-    confirmOutput.textContent= `Welcome, ${sanitizedResult}`;
-  }
-  saferPromptInput.value = "";
-  saferPromptDialog.close();
-});
-
-saferPromptCancelBtn.addEventListener("click", () => {
-  confirmOutput.textContent = "You cancelled";
-  saferPromptInput.value = "";
-  saferPromptDialog.close();
 });
