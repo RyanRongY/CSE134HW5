@@ -40,10 +40,11 @@ promptBtn.addEventListener("click", () => {
 });
 
 promptOkBtn.addEventListener("click", () => {
-  if (promptInput.value === "") {
+  const sanitizedResult1 = DOMPurify.sanitize(promptInput.value);
+  if (sanitizedResult1.value === "") {
     confirmOutput.textContent = "You did not enter anything";
   } else {
-    confirmOutput.textContent= `Welcome, ${promptInput.value}`;
+    confirmOutput.textContent= `Welcome, ${sanitizedResult1.value}`;
   }
   promptInput.value = "";
   promptDialog.close();
@@ -62,16 +63,16 @@ saferPromptBtn.addEventListener("click", () => {
 saferPromptOkBtn.addEventListener("click", () => {
   const sanitizedResult = DOMPurify.sanitize(saferPromptInput.value);
   if (sanitizedResult === "") {
-    console.log("User didn't enter anything");
+    confirmOutput.textContent = "You did not enter anything";
   } else {
-    console.log(`Hello, ${sanitizedResult}!`);
+    confirmOutput.textContent= `Welcome, ${saferPromptInput.value}`;
   }
   saferPromptInput.value = "";
   saferPromptDialog.close();
 });
 
 saferPromptCancelBtn.addEventListener("click", () => {
-  console.log("User cancelled the prompt");
+  confirmOutput.textContent = "You cancelled";
   saferPromptInput.value = "";
   saferPromptDialog.close();
 });
