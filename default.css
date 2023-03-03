@@ -123,7 +123,9 @@
     line-height: 1.4;
     margin-bottom: 20px;
   }
-  
+  caption{
+    margin-top: 25px;
+  }
   section#about_me figure {
     margin: 0 auto 20px;
     max-width: 380px;
@@ -203,7 +205,7 @@
   }
 
   footer {
-  background-color: #f2f2f2;
+  background-color: #4a759e;
   padding: 20px;
   margin-top: 50px;
   text-align: center;
