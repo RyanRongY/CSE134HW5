@@ -50,7 +50,7 @@ promptOkBtn.addEventListener("click", () => {
 });
 
 promptCancelBtn.addEventListener("click", () => {
-  console.log("You cancelled input prompt");
+  confirmOutput.textContent = "You cancelled";
   promptInput.value = "";
   promptDialog.close();
 });
