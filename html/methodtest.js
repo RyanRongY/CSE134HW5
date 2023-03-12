@@ -7,7 +7,8 @@ function getCurrentDateTime() {
     var hours = now.getHours();
     var minutes = now.getMinutes();
     var seconds = now.getSeconds();
-    var dateTime = year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
+    var dateTime = year + '-' + month + '-' + day + ' '
+     + hours + ':' + minutes + ':' + seconds;
     return dateTime;
 }
 
