@@ -12,29 +12,9 @@ function getCurrentDateTime() {
 }
 
 //function to format JSON response to HTML table
-// function formatJSONToHTMLTable(jsonData) {
-//     var table = '<table>';
-//     for (var key in jsonData) {
-//         table += '<tr>';
-//         if (typeof jsonData[key] === 'object') {
-//             table += '<td colspan="2"><b>' + key + ':</b></td>';
-//             table += '</tr><tr><td colspan="2">';
-//             table += formatJSONToHTMLTable(jsonData[key]);
-//             table += '</td>';
-//         } else {
-//             table += '<td><b>' + key + ':</b></td>';
-//             table += '<td>' + jsonData[key] + '</td>';
-//             table += '</tr>';
-//         }
-//     }
-//     table += '</table>';
-//     return table;
-// }
 function formatJSONToHTMLTable(jsonData) {
     var table = '<table>';
-    var inputFields = ['id', 'article_name', 'article_body', 'date'];
-    for (var i = 0; i < inputFields.length; i++) {
-        var key = inputFields[i];
+    for (var key in jsonData) {
         table += '<tr>';
         if (typeof jsonData[key] === 'object') {
             table += '<td colspan="2"><b>' + key + ':</b></td>';
