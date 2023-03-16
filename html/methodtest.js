@@ -37,19 +37,34 @@ export async function sendRequest(method, url, data) {
     deleteBtn.addEventListener('click', () => handleButtonClick('DELETE', 'https://httpbin.org/delete'));
   
     async function handleButtonClick(method, url) {
-      const data = {
-        id: id.value,
-        article_name: articleName.value,
-        article_body: articleBody.value,
-        date: date.value
-      };
-      try {      
-        const json = await sendRequest(method, url, data);
-        responseOutput.innerHTML = `<pre>${JSON.stringify(json, null, 2)}</pre>`;
-      } catch (error) {
-        responseOutput.innerHTML = `Error: ${error}`;
+        const data = {
+          id: id.value,
+          article_name: articleName.value,
+          article_body: articleBody.value,
+          date: date.value
+        };
+        try {
+          const json = await sendRequest(method, url, data);
+          responseOutput.innerHTML = jsonToTable(json);
+        } catch (error) {
+          responseOutput.innerHTML = `Error: ${error}`;
+        }
       }
-    }
+      
+      function jsonToTable(json) {
+        const keys = Object.keys(json);
+        let table = '<table><thead><tr>';
+        for (const key of keys) {
+          table += `<th>${key}</th>`;
+        }
+        table += '</tr></thead><tbody><tr>';
+        for (const key of keys) {
+          table += `<td>${json[key]}</td>`;
+        }
+        table += '</tr></tbody></table>';
+        return table;
+      }
+      
   });
   
        

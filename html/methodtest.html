@@ -5,6 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Method Test</title>
   <script type="module" src="methodtest.js" defer></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 1rem;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 0.5rem;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
   <h1>HTTP Method Test</h1>
@@ -16,7 +35,7 @@
     <input type="text" id="article_name" name="article_name">
     <br>
     <label for="article_body">Article Body:</label>
-    <textarea id="article_body" name="article_body" readonly></textarea>
+    <textarea id="article_body" name="article_body"></textarea>
     <br>
     <label for="date">Date:</label>
     <input type="text" id="date" name="date" readonly>
