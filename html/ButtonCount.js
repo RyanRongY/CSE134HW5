@@ -1,14 +1,28 @@
-var count = 0;
+export class ButtonCount extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+    this._count = 0;
 
-const button = document.getElementById("click-counter-button");
+    this.shadowRoot.innerHTML = `
+      <style>
+        button {
+          font-size: 1rem;
+          padding: 0.5rem 1rem;
+          margin: 0.5rem;
+        }
+      </style>
+      <button>Clicked 0 times</button>
+    `;
 
-function updateLabel() {
-  button.innerText = `Clicked ${count} times.`;
+    this._button = this.shadowRoot.querySelector('button');
+    this._button.addEventListener('click', () => this._incrementCounter());
+  }
+
+  _incrementCounter() {
+    this._count++;
+    this._button.textContent = `Clicked ${this._count} times`;
+  }
 }
 
-button.addEventListener("click", function() {
-  count++;
-  updateLabel();
-});
-
-updateLabel();
+customElements.define('button-count', ButtonCount);
