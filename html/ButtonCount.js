@@ -5,13 +5,7 @@ export class ButtonCount extends HTMLElement {
     this._count = 0;
 
     this.shadowRoot.innerHTML = `
-      <style>
-        button {
-          font-size: 1rem;
-          padding: 0.5rem 1rem;
-          margin: 0.5rem;
-        }
-      </style>
+
       <button>Clicked 0 times</button>
     `;
 
