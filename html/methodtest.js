@@ -1,112 +1,44 @@
-// function to get current date and time in ISO format
-function getCurrentDateTime() {
-    var now = new Date();
-    var year = now.getFullYear();
-    var month = now.getMonth() + 1;
-    var day = now.getDate();
-    var hours = now.getHours();
-    var minutes = now.getMinutes();
-    var seconds = now.getSeconds();
-    var dateTime = year + '-' + month + '-' + day + ' '
-     + hours + ':' + minutes + ':' + seconds;
-    return dateTime;
+// methodTest.js
+export function initMethodTest() {
+    document.getElementById('date').value = new Date().toLocaleString();
+
+    const btns = ['postBtn', 'getBtn', 'putBtn', 'deleteBtn'];
+    const methods = ['POST', 'GET', 'PUT', 'DELETE'];
+    const urls = {
+        POST: 'https://httpbin.org/post',
+        GET: 'https://httpbin.org/get',
+        PUT: 'https://httpbin.org/put',
+        DELETE: 'https://httpbin.org/delete'
+    };
+
+    btns.forEach((btn, idx) => {
+        document.getElementById(btn).addEventListener('click', () => {
+            const method = methods[idx];
+            const url = urls[method];
+            fetchApi(url, method);
+        });
+    });
 }
 
-//function to format JSON response to HTML table
-function formatJSONToHTMLTable(jsonData) {
-    var table = '<table>';
-    for (var key in jsonData) {
-        table += '<tr>';
-        if (typeof jsonData[key] === 'object') {
-            table += '<td colspan="2"><b>' + key + ':</b></td>';
-            table += '</tr><tr><td colspan="2">';
-            table += formatJSONToHTMLTable(jsonData[key]);
-            table += '</td>';
-        } else {
-            table += '<td><b>' + key + ':</b></td>';
-            table += '<td>' + jsonData[key] + '</td>';
-            table += '</tr>';
-        }
+function fetchApi(url, method) {
+    const data = new FormData(document.getElementById('testForm'));
+    const obj = Object.fromEntries(data.entries());
+    const init = {
+        method: method,
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(obj)
+    };
+    if (method === 'GET' || method === 'DELETE') {
+        delete init.body;
     }
-    table += '</table>';
-    return table;
+    fetch(url, init)
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('response').innerText = JSON.stringify(data, null, 2);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 }
-
-
-
-
-document.getElementById("date").value = getCurrentDateTime();
-
-document.getElementById("postBtn").addEventListener("click", function() {
-    var id = document.getElementById("id").value;
-    var article_name = document.getElementById("article_name").value;
-    var article_body = document.getElementById("article_body").value;
-    var date = document.getElementById("date").value;
-
-    var data = {
-        "id": id,
-        "article_name": article_name,
-        "article_body": article_body,
-        "date": date
-    };
-
-    fetch('https://httpbin.org/post', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    })
-    .then(response => response.json())
-    .then(data => {
-        document.getElementById("response").innerHTML = formatJSONToHTMLTable(data);
-    })
-    .catch(error => console.error(error));
-});
-
-document.getElementById("getBtn").addEventListener("click", function() {
-    fetch('https://httpbin.org/get')
-    .then(response => response.json())
-    .then(data => {
-        document.getElementById("response").innerHTML = formatJSONToHTMLTable(data);
-    })
-    .catch(error => console.error(error));
-});
-
-document.getElementById("putBtn").addEventListener("click", function() {
-    var id = document.getElementById("id").value;
-    var article_name = document.getElementById("article_name").value;
-    var article_body = document.getElementById("article_body").value;
-    var date = document.getElementById("date").value;
-
-    var data = {
-        "id": id,
-        "article_name": article_name,
-        "article_body": article_body,
-        "date": date
-    };
-
-    fetch('https://httpbin.org/put', {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    })
-    .then(response => response.json())
-    .then(data => {
-        document.getElementById("response").innerHTML = formatJSONToHTMLTable(data);
-    })
-    .catch(error => console.error(error));
-});
-
-document.getElementById("deleteBtn").addEventListener("click", function() {
-    fetch('https://httpbin.org/delete', {
-        method: 'DELETE'
-    })
-    .then(response => response.json())
-    .then(data => {
-        document.getElementById("response").innerHTML = formatJSONToHTMLTable(data);
-    })
-    .catch(error => console.error(error));
-});
