@@ -36,9 +36,20 @@ function fetchApi(url, method) {
     fetch(url, init)
         .then(response => response.json())
         .then(data => {
-            document.getElementById('response').innerText = JSON.stringify(data, null, 2);
+            document.getElementById('response').innerHTML = jsonToTable(data);
         })
         .catch(error => {
             console.error('Error:', error);
         });
 }
+
+
+function jsonToTable(obj) {
+    let html = '<table border="1" cellpadding="8">';
+    Object.entries(obj).forEach(([key, value]) => {
+        html += `<tr><td>${key}</td><td>${value}</td></tr>`;
+    });
+    html += '</table>';
+    return html;
+}
+
