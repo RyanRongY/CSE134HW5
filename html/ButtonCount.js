@@ -5,7 +5,6 @@ export class ButtonCount extends HTMLElement {
     this._count = 0;
 
     this.shadowRoot.innerHTML = `
-
       <button>Clicked 0 times</button>
     `;
 
