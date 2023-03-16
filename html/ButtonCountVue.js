@@ -11,7 +11,7 @@ Vue.component('button-count-vue', {
     },
     template: `
         <div>
-            <button @click="incrementCount">Clicked ({{ count }}) times</button>
+            <button @click="incrementCount">Clicked {{ count }} times</button>
         </div>
     `
 });
