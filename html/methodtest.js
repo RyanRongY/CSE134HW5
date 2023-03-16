@@ -44,12 +44,25 @@ function fetchApi(url, method) {
 }
 
 
+// methodTest.js
 function jsonToTable(obj) {
     let html = '<table border="1" cellpadding="8">';
     Object.entries(obj).forEach(([key, value]) => {
-        html += `<tr><td>${key}</td><td>${value}</td></tr>`;
+        html += `<tr><td>${key}</td><td>${formatValue(value)}</td></tr>`;
     });
     html += '</table>';
     return html;
+}
+
+function formatValue(value) {
+    if (typeof value === 'object' && value !== null) {
+        if (Array.isArray(value)) {
+            return value.map(item => formatValue(item)).join(', ');
+        } else {
+            return jsonToTable(value);
+        }
+    } else {
+        return value;
+    }
 }
 
