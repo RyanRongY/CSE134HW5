@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Method Test</title>
+    <script type="module">
+        import { initMethodTest } from './methodTest.js';
+        initMethodTest();
+    </script>
     <style>
         table {
             border-collapse: collapse;
@@ -18,11 +22,6 @@
 
 </head>
 <body>
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="methodtest.html">Method Test</a>
-    </nav>
-
     <h1>Method Test</h1>
 
     <form id="testForm">
@@ -47,9 +46,6 @@
     <h2>Response:</h2>
     <output id="response"></output>
 
-    <script type="module">
-        import { initMethodTest } from './methodTest.js';
-        initMethodTest();
-    </script>
+
 </body>
 </html>
