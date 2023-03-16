@@ -1,71 +1,112 @@
-// Define a sendRequest function and export it as a module
-export async function sendRequest(method, url, data) {
-    const requestOptions = {
-      method,
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    };
-  
-    if (method === 'GET' || method === 'DELETE') {
-      delete requestOptions.body;
+// function to get current date and time in ISO format
+function getCurrentDateTime() {
+    var now = new Date();
+    var year = now.getFullYear();
+    var month = now.getMonth() + 1;
+    var day = now.getDate();
+    var hours = now.getHours();
+    var minutes = now.getMinutes();
+    var seconds = now.getSeconds();
+    var dateTime = year + '-' + month + '-' + day + ' '
+     + hours + ':' + minutes + ':' + seconds;
+    return dateTime;
+}
+
+//function to format JSON response to HTML table
+function formatJSONToHTMLTable(jsonData) {
+    var table = '<table>';
+    for (var key in jsonData) {
+        table += '<tr>';
+        if (typeof jsonData[key] === 'object') {
+            table += '<td colspan="2"><b>' + key + ':</b></td>';
+            table += '</tr><tr><td colspan="2">';
+            table += formatJSONToHTMLTable(jsonData[key]);
+            table += '</td>';
+        } else {
+            table += '<td><b>' + key + ':</b></td>';
+            table += '<td>' + jsonData[key] + '</td>';
+            table += '</tr>';
+        }
     }
-  
-    const response = await fetch(url, requestOptions);
-    const json = await response.json();
-    return json;
-  }
-  
-  // Add event listeners and call sendRequest function when the DOM is loaded
-  document.addEventListener('DOMContentLoaded', () => {
-    const id = document.getElementById('id');
-    const articleName = document.getElementById('article_name');
-    const articleBody = document.getElementById('article_body');
-    const date = document.getElementById('date');
-    const responseOutput = document.getElementById('response');
-    const postBtn = document.getElementById('postBtn');
-    const getBtn = document.getElementById('getBtn');
-    const putBtn = document.getElementById('putBtn');
-    const deleteBtn = document.getElementById('deleteBtn');
-  
-    date.value = new Date().toLocaleString();
-  
-    postBtn.addEventListener('click', () => handleButtonClick('POST', 'https://httpbin.org/post'));
-    getBtn.addEventListener('click', () => handleButtonClick('GET', 'https://httpbin.org/get'));
-    putBtn.addEventListener('click', () => handleButtonClick('PUT', 'https://httpbin.org/put'));
-    deleteBtn.addEventListener('click', () => handleButtonClick('DELETE', 'https://httpbin.org/delete'));
-  
-    async function handleButtonClick(method, url) {
-        const data = {
-          id: id.value,
-          article_name: articleName.value,
-          article_body: articleBody.value,
-          date: date.value
-        };
-        try {
-          const json = await sendRequest(method, url, data);
-          responseOutput.innerHTML = jsonToTable(json);
-        } catch (error) {
-          responseOutput.innerHTML = `Error: ${error}`;
-        }
-      }
-      
-      function jsonToTable(json) {
-        const keys = Object.keys(json);
-        let table = '<table><thead><tr>';
-        for (const key of keys) {
-          table += `<th>${key}</th>`;
-        }
-        table += '</tr></thead><tbody><tr>';
-        for (const key of keys) {
-          table += `<td>${json[key]}</td>`;
-        }
-        table += '</tr></tbody></table>';
-        return table;
-      }
-      
-  });
-  
-       
-  
+    table += '</table>';
+    return table;
+}
+
+
+
+
+document.getElementById("date").value = getCurrentDateTime();
+
+document.getElementById("postBtn").addEventListener("click", function() {
+    var id = document.getElementById("id").value;
+    var article_name = document.getElementById("article_name").value;
+    var article_body = document.getElementById("article_body").value;
+    var date = document.getElementById("date").value;
+
+    var data = {
+        "id": id,
+        "article_name": article_name,
+        "article_body": article_body,
+        "date": date
+    };
+
+    fetch('https://httpbin.org/post', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById("response").innerHTML = formatJSONToHTMLTable(data);
+    })
+    .catch(error => console.error(error));
+});
+
+document.getElementById("getBtn").addEventListener("click", function() {
+    fetch('https://httpbin.org/get')
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById("response").innerHTML = formatJSONToHTMLTable(data);
+    })
+    .catch(error => console.error(error));
+});
+
+document.getElementById("putBtn").addEventListener("click", function() {
+    var id = document.getElementById("id").value;
+    var article_name = document.getElementById("article_name").value;
+    var article_body = document.getElementById("article_body").value;
+    var date = document.getElementById("date").value;
+
+    var data = {
+        "id": id,
+        "article_name": article_name,
+        "article_body": article_body,
+        "date": date
+    };
+
+    fetch('https://httpbin.org/put', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById("response").innerHTML = formatJSONToHTMLTable(data);
+    })
+    .catch(error => console.error(error));
+});
+
+document.getElementById("deleteBtn").addEventListener("click", function() {
+    fetch('https://httpbin.org/delete', {
+        method: 'DELETE'
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById("response").innerHTML = formatJSONToHTMLTable(data);
+    })
+    .catch(error => console.error(error));
+});
